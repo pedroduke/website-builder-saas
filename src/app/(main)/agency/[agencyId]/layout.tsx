@@ -1,0 +1,48 @@
+import Sidebar from '@/components/sidebar';
+import { getNotificationAndUser, verifyAndAcceptInvitation } from '@/lib/queries';
+import { currentUser } from '@clerk/nextjs';
+import { redirect } from 'next/navigation';
+
+import UnauthorizedPage from '../unauthorized/page';
+
+type Props = {
+  children: React.ReactNode;
+  params: {
+    agencyId: string;
+  };
+};
+
+const layout = async ({ children, params }: Props) => {
+  const agencyId = await verifyAndAcceptInvitation();
+  const user = await currentUser();
+
+  if (!user) {
+    return redirect('/');
+  }
+
+  if (!agencyId) {
+    return redirect('/agency');
+  }
+
+  if (
+    user.privateMetadata.role !== 'AGENCY_OWNER' &&
+    user.privateMetadata.role !== 'AGENCY_ADMIN'
+  ) {
+    return <UnauthorizedPage />;
+  }
+
+  let allNotifications: any = [];
+
+  const notifications = await getNotificationAndUser(agencyId);
+
+  if (notifications) allNotifications = notifications;
+
+  return (
+    <div className="h-scree overflow-hidden">
+      <Sidebar id={params.agencyId} type="agency" />
+      <div className="md:pl-[300px]">{children}</div>
+    </div>
+  );
+};
+
+export default layout;

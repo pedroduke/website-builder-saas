@@ -384,7 +384,7 @@ const AgencyDetails = ({ data }: AgencyDetailsProps) => {
               <Button className="text-white" type="submit" disabled={isLoading}>
                 {isLoading ? (
                   <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Saving Information...
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Saving Agency Information...
                   </>
                 ) : (
                   'Save Agency Information'
