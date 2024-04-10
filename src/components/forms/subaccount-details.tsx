@@ -99,8 +99,8 @@ const SubAccountDetails: React.FC<SubAccountDetailsProps> = ({
       });
 
       toast({
-        title: 'Subaccount details saved',
-        description: 'Successfully saved your subaccount details.',
+        title: 'Sub Account details saved',
+        description: 'Successfully saved your sub account details.',
       });
 
       setClose();
@@ -125,7 +125,7 @@ const SubAccountDetails: React.FC<SubAccountDetailsProps> = ({
   return (
     <Card className="w-full ">
       <CardHeader>
-        <CardTitle>Sub Account Information</CardTitle>
+        <CardTitle>Subaccount Information</CardTitle>
         <CardDescription>Please enter business details</CardDescription>
       </CardHeader>
       <CardContent>

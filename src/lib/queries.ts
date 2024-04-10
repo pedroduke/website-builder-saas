@@ -80,7 +80,7 @@ export const saveActivityLogsNotification = async ({
 
   if (!foundAgencyId) {
     if (!subaccountId) {
-      throw new Error('You need to provide at least an Agency ID or a Subaccount ID');
+      throw new Error('You need to provide at least an Agency ID or a Sub Account ID');
     }
     const response = await db.subAccount.findUnique({
       where: {
@@ -330,7 +330,7 @@ export const upsertSubAccount = async (subAccount: SubAccount) => {
     },
   });
 
-  if (!agencyOwner) return console.log('🔴 Error could not create subaccount');
+  if (!agencyOwner) return console.log('🔴 Error could not create sub account');
 
   const permissionId = v4();
 
@@ -404,4 +404,66 @@ export const upsertSubAccount = async (subAccount: SubAccount) => {
     },
   });
   return response;
+};
+
+export const getUserPermissions = async (userId: string) => {
+  const response = await db.user.findUnique({
+    where: {
+      id: userId,
+    },
+    select: {
+      Permissions: {
+        include: {
+          SubAccount: true,
+        },
+      },
+    },
+  });
+
+  return response;
+};
+
+export const updateUser = async (user: Partial<User>) => {
+  const response = await db.user.update({
+    where: {
+      email: user.email,
+    },
+    data: {
+      ...user,
+    },
+  });
+
+  await clerkClient.users.updateUserMetadata(response.id, {
+    privateMetadata: {
+      role: user.role || 'SUBACCOUNT_USER',
+    },
+  });
+
+  return response;
+};
+
+export const changeUserPermissions = async (
+  permissionId: string | undefined,
+  userEmail: string,
+  subAccountId: string,
+  permission: boolean,
+) => {
+  try {
+    const response = await db.permissions.upsert({
+      where: {
+        id: permissionId,
+      },
+      update: {
+        access: permission,
+      },
+      create: {
+        access: permission,
+        email: userEmail,
+        subAccountId: subAccountId,
+      },
+    });
+    return response;
+  } catch (error) {
+    console.log('Could not change permission', error);
+  }
 };

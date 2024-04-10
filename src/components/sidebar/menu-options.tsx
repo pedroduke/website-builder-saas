@@ -121,7 +121,7 @@ const MenuOptions = ({
                                   className="rounded-md object-contain"
                                 />
                               </div>
-                              <div className="flex flex-col flex-1">
+                              <div className="flex flex-col flex-1 text-black dark:text-white">
                                 {user?.Agency?.name}
                                 <span className="text-muted-foreground">
                                   {user?.Agency?.address}
@@ -142,7 +142,7 @@ const MenuOptions = ({
                                     className="rounded-md object-contain"
                                   />
                                 </div>
-                                <div className="flex flex-col flex-1">
+                                <div className="flex flex-col flex-1 text-black dark:text-white">
                                   {user?.Agency?.name}
                                   <span className="text-muted-foreground">
                                     {user?.Agency?.address}
@@ -166,7 +166,7 @@ const MenuOptions = ({
                                 <div className="relative w-16">
                                   <Image
                                     src={subaccount.subAccountLogo}
-                                    alt="subaccount Logo"
+                                    alt="sub account Logo"
                                     fill
                                     className="rounded-md object-contain"
                                   />
@@ -187,7 +187,7 @@ const MenuOptions = ({
                                   <div className="relative w-16">
                                     <Image
                                       src={subaccount.subAccountLogo}
-                                      alt="subaccount Logo"
+                                      alt="sub account Logo"
                                       fill
                                       className="rounded-md object-contain"
                                     />

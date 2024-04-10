@@ -1,3 +1,5 @@
+import BlurPage from '@/components/global/blur-page';
+import InfoBar from '@/components/global/infobar';
 import Sidebar from '@/components/sidebar';
 import { getNotificationAndUser, verifyAndAcceptInvitation } from '@/lib/queries';
 import { currentUser } from '@clerk/nextjs';
@@ -38,9 +40,14 @@ const layout = async ({ children, params }: Props) => {
   if (notifications) allNotifications = notifications;
 
   return (
-    <div className="h-scree overflow-hidden">
+    <div className="h-screen overflow-hidden">
       <Sidebar id={params.agencyId} type="agency" />
-      <div className="md:pl-[300px]">{children}</div>
+      <div className="md:pl-[300px]">
+        <InfoBar notifications={allNotifications} />
+        <div className="relative">
+          <BlurPage>{children}</BlurPage>
+        </div>
+      </div>
     </div>
   );
 };

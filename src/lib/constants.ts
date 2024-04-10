@@ -35,7 +35,7 @@ export const pricingCards = [
     price: 'Free',
     duration: '',
     highlight: 'Key features',
-    features: ['3 Sub accounts', '2 Team members', 'Unlimited pipelines'],
+    features: ['3 Sub Accounts', '2 Team members', 'Unlimited pipelines'],
     priceId: '',
   },
   {
@@ -53,7 +53,7 @@ export const pricingCards = [
     price: '$49',
     duration: 'month',
     highlight: 'Everything in Starter, plus',
-    features: ['Unlimited Sub accounts', 'Unlimited Team members'],
+    features: ['Unlimited Sub Accounts', 'Unlimited Team members'],
     priceId: 'price_1OYxkqFj9oKEERu1NbKUxXxN',
   },
 ];
