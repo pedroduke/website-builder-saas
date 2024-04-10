@@ -10,7 +10,7 @@ type NavigationProps = {
 
 const Navigation = ({ user }: NavigationProps) => {
   return (
-    <div className="fixed top-0 right-0 left-0 p-4 flex items-center justify-between z-30">
+    <div className="fixed top-0 right-0 left-0 p-4 flex items-center justify-between z-30 bg-background">
       <aside className="flex items-center gap-2">
         <Image src={'/assets/aura-logo.png'} width={40} height={40} alt="aura logo" />
         <span className="text-xl font-bold">Aura.</span>

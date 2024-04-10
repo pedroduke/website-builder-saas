@@ -8,14 +8,14 @@ import Link from 'next/link';
 export default function Home() {
   return (
     <>
-      <section className="h-full w-full md:pt-44 mt-[-70px] relative flex items-center justify-center flex-col">
+      <section className="h-full w-full md:pt-44 mt-[-70px] relative flex items-center justify-center flex-col p-4">
         {/* grid */}
 
         <div
           aria-hidden="true"
           className="absolute bottom-0 left-0 right-0 top-0 bg-[linear-gradient(to_right,#161616_1px,transparent_1px),linear-gradient(to_bottom,#161616_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_110%)] -z-10"
         />
-        <p className="text-center">Run your agency, in one place</p>
+        <p className="text-center">Run your Agency in one place</p>
         <div className="bg-gradient-to-tl from-[#085078] to-[#85d8ce] dark:from-[#2bc0e4] dark:to-[#eaecc6] text-transparent bg-clip-text relative">
           <h1 className="text-9xl font-bold text-center md:text-[300px]">Aura</h1>
         </div>
@@ -37,7 +37,7 @@ export default function Home() {
           <br />
           ready to commit you can get started for free.
         </p>
-        <div className="flex justify-center gap-4 flex-wrap mt-6">
+        <div className="flex justify-center gap-4 flex-wrap mt-6 mb-6">
           {pricingCards.map((card) => (
             // WIP: Wire up free product from stripe
 
