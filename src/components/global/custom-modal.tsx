@@ -1,10 +1,9 @@
 'use client';
 
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { ScrollArea } from '@/components/ui/scroll-area';
 import { useModal } from '@/providers/modal-provider';
 import { DialogDescription } from '@radix-ui/react-dialog';
-
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '../ui/dialog';
-import { ScrollArea } from '../ui/scroll-area';
 
 type CustomModalProps = {
   title: string;

@@ -11,6 +11,7 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { useToast } from '@/components/ui/use-toast';
 import { saveActivityLogsNotification, upsertSubAccount } from '@/lib/queries';
 import { useModal } from '@/providers/modal-provider';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -23,7 +24,6 @@ import { v4 } from 'uuid';
 import * as z from 'zod';
 
 import FileUpload from '../global/file-upload';
-import { useToast } from '../ui/use-toast';
 
 const formSchema = z.object({
   name: z.string(),

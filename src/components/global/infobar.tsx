@@ -1,14 +1,7 @@
 'use client';
 
-import { NotificationWithUser } from '@/lib/types';
-import { UserButton } from '@clerk/nextjs';
-import { Role } from '@prisma/client';
-import { Bell } from 'lucide-react';
-import { useState } from 'react';
-import { twMerge } from 'tailwind-merge';
-
-import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
-import { Card } from '../ui/card';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Card } from '@/components/ui/card';
 import {
   Sheet,
   SheetClose,
@@ -17,8 +10,15 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from '../ui/sheet';
-import { Switch } from '../ui/switch';
+} from '@/components/ui/sheet';
+import { Switch } from '@/components/ui/switch';
+import { NotificationWithUser } from '@/lib/types';
+import { UserButton } from '@clerk/nextjs';
+import { Role } from '@prisma/client';
+import { Bell } from 'lucide-react';
+import { useState } from 'react';
+import { twMerge } from 'tailwind-merge';
+
 import { ModeToggle } from './mode-toggle';
 
 type InfoBarProps = {

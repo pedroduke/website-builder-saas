@@ -1,8 +1,7 @@
+import { Button } from '@/components/ui/button';
 import { UploadDropzone } from '@uploadthing/react';
 import { FileIcon, X } from 'lucide-react';
 import Image from 'next/image';
-
-import { Button } from '../ui/button';
 
 type FileUploadProps = {
   apiEndpoint: 'agencyLogo' | 'avatar' | 'subaccountLogo';
@@ -27,7 +26,7 @@ const FileUpload = ({ apiEndpoint, onChange, value }: FileUploadProps) => {
               href={value}
               target="_blank"
               rel="noopener_noreferrer"
-              className="ml-2 text-sm text-indigo-500 dark:text-indigo-400 hover:underline"
+              className="ml-2 text-sm text-primary dark:text-primary hover:underline"
             >
               View PDF
             </a>
@@ -42,8 +41,9 @@ const FileUpload = ({ apiEndpoint, onChange, value }: FileUploadProps) => {
   }
 
   return (
-    <div className="w-full bg-muted/30">
+    <div className="w-full bg-muted/30 rounded-md">
       <UploadDropzone
+        className="ut-label:text-primary ut-button:bg-primary"
         endpoint={apiEndpoint}
         onClientUploadComplete={(res) => {
           onChange(res?.[0].url);

@@ -1,5 +1,18 @@
 'use client';
 
+import { AspectRatio } from '@/components/ui/aspect-ratio';
+import { Button } from '@/components/ui/button';
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from '@/components/ui/command';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { Separator } from '@/components/ui/separator';
+import { Sheet, SheetClose, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { icons } from '@/lib/constants';
 import { useModal } from '@/providers/modal-provider';
 import { Agency, AgencySidebarOption, SubAccount, SubAccountSidebarOption } from '@prisma/client';
@@ -11,19 +24,6 @@ import { useEffect, useMemo, useState } from 'react';
 
 import SubAccountDetails from '../forms/subaccount-details';
 import CustomModal from '../global/custom-modal';
-import { AspectRatio } from '../ui/aspect-ratio';
-import { Button } from '../ui/button';
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
-} from '../ui/command';
-import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
-import { Separator } from '../ui/separator';
-import { Sheet, SheetClose, SheetContent, SheetTrigger } from '../ui/sheet';
 
 type MenuOptionsProps = {
   defaultOpen?: boolean;
@@ -157,7 +157,10 @@ const MenuOptions = ({
                   <CommandGroup heading="Accounts">
                     {!!subAccounts
                       ? subAccounts.map((subaccount) => (
-                          <CommandItem key={subaccount.id}>
+                          <CommandItem
+                            className="!bg-transparent my-2 broder-[1px] border-border p-2 rounded-md hover:!bg-muted cursor-pointer transition-all"
+                            key={subaccount.id}
+                          >
                             {defaultOpen ? (
                               <Link
                                 href={`/subaccount/${subaccount.id}`}

@@ -1,6 +1,31 @@
 'use client';
 
 import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { Switch } from '@/components/ui/switch';
+import { useToast } from '@/components/ui/use-toast';
+import {
   deleteAgency,
   initUser,
   saveActivityLogsNotification,
@@ -18,31 +43,6 @@ import { v4 } from 'uuid';
 import * as z from 'zod';
 
 import FileUpload from '../global/file-upload';
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from '../ui/alert-dialog';
-import { Button } from '../ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card';
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '../ui/form';
-import { Input } from '../ui/input';
-import { Switch } from '../ui/switch';
-import { useToast } from '../ui/use-toast';
 
 type AgencyDetailsProps = {
   data?: Partial<Agency>;
@@ -406,7 +406,7 @@ const AgencyDetails = ({ data }: AgencyDetailsProps) => {
               </div>
               <AlertDialogTrigger
                 disabled={isLoading || deletingAgency}
-                className="flex items-center text-red-600 p-2 text-center mt-2 rounded-md hover:bg-red-600 hover:text-white whitespace-nowrap"
+                className="flex items-center text-red-600 p-2 text-center mt-2 rounded-md hover:bg-red-600 hover:text-white whitespace-nowrap transition-all"
               >
                 {deletingAgency ? (
                   <>
@@ -429,10 +429,10 @@ const AgencyDetails = ({ data }: AgencyDetailsProps) => {
               </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter className="flex items-center">
-              <AlertDialogCancel className="mb-2">Cancel</AlertDialogCancel>
+              <AlertDialogCancel>Cancel</AlertDialogCancel>
               <AlertDialogAction
                 disabled={deletingAgency}
-                className="bg-destructive hover:bg-destructive"
+                className="bg-destructive hover:bg-red-600 text-white"
                 onClick={handleDeleteAgency}
               >
                 Delete
