@@ -1,5 +1,5 @@
-const SubAccountIdPage = () => {
-  return <div>SubAccountIdPage</div>;
+const Page = () => {
+  return <div>Page</div>;
 };
 
-export default SubAccountIdPage;
+export default Page;

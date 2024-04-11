@@ -125,7 +125,7 @@ const SubAccountDetails: React.FC<SubAccountDetailsProps> = ({
   return (
     <Card className="w-full ">
       <CardHeader>
-        <CardTitle>Subaccount Information</CardTitle>
+        <CardTitle>Sub Account Information</CardTitle>
         <CardDescription>Please enter business details</CardDescription>
       </CardHeader>
       <CardContent>

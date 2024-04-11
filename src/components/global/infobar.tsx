@@ -74,10 +74,7 @@ const InfoBar = ({ notifications, role, className, subaccountId }: InfoBarProps)
                 </SheetDescription>
               </SheetHeader>
               {allNotifications?.map((notification) => (
-                <div
-                  key={notification.id}
-                  className="flex flex-col gap-y-2 overflow-x-scroll text-ellipsis"
-                >
+                <div key={notification.id} className="flex flex-col gap-y-2 text-ellipsis">
                   <div className="flex gap-2">
                     <Avatar>
                       <AvatarImage src={notification.User.avatarUrl} alt="Profile Picture" />

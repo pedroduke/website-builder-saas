@@ -334,7 +334,7 @@ const UserDetails = ({ id, type, userData, subAccounts }: UserDetailsProps) => {
                     return (
                       <div
                         key={subAccount.id}
-                        className="flex flex-col items-center justify-center rounded-lg border p-4"
+                        className="flex items-center justify-between rounded-lg border p-4"
                       >
                         <div>
                           <p>{subAccount.name}</p>

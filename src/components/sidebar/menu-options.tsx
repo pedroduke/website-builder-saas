@@ -176,7 +176,7 @@ const MenuOptions = ({
                                     className="rounded-md object-contain"
                                   />
                                 </div>
-                                <div className="flex flex-col flex-1">
+                                <div className="flex flex-col flex-1 text-black dark:text-white">
                                   {subaccount.name}
                                   <span className="text-muted-foreground">
                                     {subaccount.address}
@@ -257,12 +257,15 @@ const MenuOptions = ({
                         key={option.id}
                         className={clsx(
                           'md:w-[320px] w-full mb-2',
-                          pathname === option.link ? 'bg-primary font-bold' : '',
+                          pathname === option.link ? 'bg-primary font-bold text-white' : '',
                         )}
                       >
                         <Link
                           href={option.link}
-                          className="flex items-center gap-2 hover:bg-transparent rounded-md transition-all md:w-full w-[320px]"
+                          className={clsx(
+                            'flex items-center gap-2 hover:bg-transparent rounded-md transition-all md:w-full w-[320px]',
+                            pathname === option.link ? 'pointer-events-none' : '',
+                          )}
                         >
                           {val}
                           <span>{option.name}</span>
