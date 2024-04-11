@@ -23,6 +23,7 @@ import { SubAccount } from '@prisma/client';
 import Image from 'next/image';
 import Link from 'next/link';
 
+import CreateSubAccountButton from './_components/create-subaccount-btn';
 import DeleteButton from './_components/delete-button';
 
 type SubAccountsPageProps = {
@@ -39,7 +40,11 @@ const SubAccountsPage = async ({ params }: SubAccountsPageProps) => {
   return (
     <AlertDialog>
       <div className="flex flex-col">
-        <Button>Create</Button>
+        <CreateSubAccountButton
+          user={user}
+          id={params.agencyId}
+          className="w-[200px] self-end m-6 text-white"
+        />
         <Command className="rounded-lg bg-transparent">
           <CommandInput placeholder="Search Account..." />
           <CommandList>
@@ -64,7 +69,7 @@ const SubAccountsPage = async ({ params }: SubAccountsPageProps) => {
                         />
                       </div>
                       <div className="flex flex-col justify-between">
-                        <div className="flex flex-col">
+                        <div className="flex flex-col text-black dark:text-white">
                           {subaccount.name}
                           <span className="text-muted-foreground text-xs">
                             {subaccount.address}
@@ -91,7 +96,7 @@ const SubAccountsPage = async ({ params }: SubAccountsPageProps) => {
                           related to the Sub Account.
                         </AlertDescription>
                       </AlertDialogHeader>
-                      <AlertDialogFooter className="flex items-center">
+                      <AlertDialogFooter className="flex">
                         <AlertDialogCancel>Cancel</AlertDialogCancel>
                         <AlertDialogAction className="bg-destructive hover:bg-red-600">
                           <DeleteButton subaccountId={subaccount.id} />

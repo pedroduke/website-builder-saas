@@ -36,7 +36,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Agency } from '@prisma/client';
 import { NumberInput } from '@tremor/react';
 import { Loader2 } from 'lucide-react';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { v4 } from 'uuid';
@@ -64,6 +64,9 @@ const FormSchema = z.object({
 const AgencyDetails = ({ data }: AgencyDetailsProps) => {
   const { toast } = useToast();
   const router = useRouter();
+  const pathname = usePathname();
+  const getSettingsUrl = pathname.split('/').includes('settings');
+
   const [deletingAgency, setDeletingAgency] = useState(false);
 
   const form = useForm<z.infer<typeof FormSchema>>({
@@ -189,10 +192,14 @@ const AgencyDetails = ({ data }: AgencyDetailsProps) => {
       <Card className="w-full">
         <CardHeader>
           <CardTitle>Agency Information</CardTitle>
-          <CardDescription>
-            Lets create an agency for your business. You can edit agency settings later from the
-            agency settings tab.
-          </CardDescription>
+          {getSettingsUrl ? (
+            <CardDescription>You can edit agency settings here.</CardDescription>
+          ) : (
+            <CardDescription>
+              Lets create an agency for your business. You can edit agency settings later from the
+              agency settings tab.
+            </CardDescription>
+          )}
         </CardHeader>
         <CardContent>
           <Form {...form}>
@@ -428,7 +435,7 @@ const AgencyDetails = ({ data }: AgencyDetailsProps) => {
                 all related sub accounts.
               </AlertDialogDescription>
             </AlertDialogHeader>
-            <AlertDialogFooter className="flex items-center">
+            <AlertDialogFooter className="flex">
               <AlertDialogCancel>Cancel</AlertDialogCancel>
               <AlertDialogAction
                 disabled={deletingAgency}

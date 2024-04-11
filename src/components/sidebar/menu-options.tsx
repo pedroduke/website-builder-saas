@@ -20,6 +20,7 @@ import clsx from 'clsx';
 import { ChevronsUpDown, Compass, Menu, PlusCircleIcon } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
 
 import SubAccountDetails from '../forms/subaccount-details';
@@ -45,6 +46,7 @@ const MenuOptions = ({
   id,
 }: MenuOptionsProps) => {
   const { setOpen } = useModal();
+  const pathname = usePathname();
 
   const [isMounted, setIsMounted] = useState(false);
 
@@ -251,7 +253,13 @@ const MenuOptions = ({
                       val = <result.path />;
                     }
                     return (
-                      <CommandItem key={option.id} className="md:w-[320px] w-full">
+                      <CommandItem
+                        key={option.id}
+                        className={clsx(
+                          'md:w-[320px] w-full mb-2',
+                          pathname === option.link ? 'bg-primary font-bold' : '',
+                        )}
+                      >
                         <Link
                           href={option.link}
                           className="flex items-center gap-2 hover:bg-transparent rounded-md transition-all md:w-full w-[320px]"
