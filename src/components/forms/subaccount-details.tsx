@@ -1,5 +1,16 @@
 'use client';
 
+import { saveActivityLogsNotification, upsertSubAccount } from '@/lib/queries';
+import { useModal } from '@/providers/modal-provider';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Agency, SubAccount } from '@prisma/client';
+import { Loader2 } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
+import { useForm } from 'react-hook-form';
+import { v4 } from 'uuid';
+import * as z from 'zod';
+
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import {
@@ -12,16 +23,6 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/components/ui/use-toast';
-import { saveActivityLogsNotification, upsertSubAccount } from '@/lib/queries';
-import { useModal } from '@/providers/modal-provider';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { Agency, SubAccount } from '@prisma/client';
-import { Loader2 } from 'lucide-react';
-import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
-import { useForm } from 'react-hook-form';
-import { v4 } from 'uuid';
-import * as z from 'zod';
 
 import FileUpload from '../global/file-upload';
 
@@ -103,8 +104,8 @@ const SubAccountDetails: React.FC<SubAccountDetailsProps> = ({
         description: 'Successfully saved your sub account details.',
       });
 
-      setClose();
       router.refresh();
+      setClose();
     } catch (error) {
       toast({
         variant: 'destructive',
@@ -156,9 +157,9 @@ const SubAccountDetails: React.FC<SubAccountDetailsProps> = ({
                 name="name"
                 render={({ field }) => (
                   <FormItem className="flex-1">
-                    <FormLabel>Account Name</FormLabel>
+                    <FormLabel>Sub Account Name</FormLabel>
                     <FormControl>
-                      <Input required placeholder="Your agency name" {...field} />
+                      <Input required placeholder="Your Sub Account name" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

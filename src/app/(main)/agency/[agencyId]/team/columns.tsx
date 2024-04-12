@@ -1,5 +1,24 @@
 'use client';
 
+import { deleteUser, getUser } from '@/lib/queries';
+import { UsersWithAgencySubAccountPermissionsSidebarOptions } from '@/lib/types';
+import { useModal } from '@/providers/modal-provider';
+import {
+  Agency,
+  AgencySidebarOption,
+  Permissions,
+  Prisma,
+  Role,
+  SubAccount,
+  User,
+} from '@prisma/client';
+import { ColumnDef } from '@tanstack/react-table';
+import clsx from 'clsx';
+import { Copy, Edit, MoreHorizontal, Trash } from 'lucide-react';
+import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+
 import UserDetails from '@/components/forms/user-details';
 import CustomModal from '@/components/global/custom-modal';
 import {
@@ -24,24 +43,6 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { useToast } from '@/components/ui/use-toast';
-import { deleteUser, getUser } from '@/lib/queries';
-import { UsersWithAgencySubAccountPermissionsSidebarOptions } from '@/lib/types';
-import { useModal } from '@/providers/modal-provider';
-import {
-  Agency,
-  AgencySidebarOption,
-  Permissions,
-  Prisma,
-  Role,
-  SubAccount,
-  User,
-} from '@prisma/client';
-import { ColumnDef } from '@tanstack/react-table';
-import clsx from 'clsx';
-import { Copy, Edit, MoreHorizontal, Trash } from 'lucide-react';
-import Image from 'next/image';
-import { useRouter } from 'next/navigation';
-import { useState } from 'react';
 
 export const columns: ColumnDef<UsersWithAgencySubAccountPermissionsSidebarOptions>[] = [
   {
@@ -191,7 +192,7 @@ const CellActions: React.FC<CellActionsProps> = ({ rowData }) => {
             <Edit size={15} />
             Edit Details
           </DropdownMenuItem>
-          {rowData.role === 'AGENCY_OWNER' && (
+          {rowData.role !== 'AGENCY_OWNER' && (
             <AlertDialogTrigger asChild>
               <DropdownMenuItem className="flex gap-2">
                 <Trash size={15} />

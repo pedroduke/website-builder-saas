@@ -1,6 +1,23 @@
 'use client';
 
 import {
+  deleteAgency,
+  initUser,
+  saveActivityLogsNotification,
+  updateAgencyDetails,
+  upsertAgency,
+} from '@/lib/queries';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Agency } from '@prisma/client';
+import { NumberInput } from '@tremor/react';
+import { Loader2 } from 'lucide-react';
+import { usePathname, useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { v4 } from 'uuid';
+import * as z from 'zod';
+
+import {
   AlertDialog,
   AlertDialogAction,
   AlertDialogCancel,
@@ -25,22 +42,6 @@ import {
 import { Input } from '@/components/ui/input';
 import { Switch } from '@/components/ui/switch';
 import { useToast } from '@/components/ui/use-toast';
-import {
-  deleteAgency,
-  initUser,
-  saveActivityLogsNotification,
-  updateAgencyDetails,
-  upsertAgency,
-} from '@/lib/queries';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { Agency } from '@prisma/client';
-import { NumberInput } from '@tremor/react';
-import { Loader2 } from 'lucide-react';
-import { usePathname, useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { v4 } from 'uuid';
-import * as z from 'zod';
 
 import FileUpload from '../global/file-upload';
 

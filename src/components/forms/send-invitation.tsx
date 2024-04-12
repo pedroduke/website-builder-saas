@@ -1,24 +1,39 @@
 'use client';
 
 import { saveActivityLogsNotification, sendInvitation } from '@/lib/queries';
+import { useModal } from '@/providers/modal-provider';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Loader2 } from 'lucide-react';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
-import { Button } from '../ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card';
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '../ui/form';
-import { Input } from '../ui/input';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
-import { useToast } from '../ui/use-toast';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { useToast } from '@/components/ui/use-toast';
 
 interface SendInvitationProps {
   agencyId: string;
 }
 
 const SendInvitation: React.FC<SendInvitationProps> = ({ agencyId }) => {
+  const { setClose } = useModal();
   const { toast } = useToast();
   const userDataSchema = z.object({
     email: z.string().email(),
@@ -46,6 +61,7 @@ const SendInvitation: React.FC<SendInvitationProps> = ({ agencyId }) => {
         title: 'Success',
         description: 'Created and sent invitation',
       });
+      setClose();
     } catch (error) {
       console.log(error);
       toast({

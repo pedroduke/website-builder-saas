@@ -3,6 +3,7 @@
     "^@core/(.*)$",
     "^@server/(.*)$",
     "^@ui/(.*)$",
+    "^@/components/(.*)$",
     "^[./]"
   ],
   "importOrderSeparation": true,
