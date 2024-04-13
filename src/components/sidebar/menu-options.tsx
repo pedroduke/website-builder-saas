@@ -48,13 +48,21 @@ const MenuOptions = ({
 }: MenuOptionsProps) => {
   const { setOpen } = useModal();
   const pathname = usePathname();
+  const getSettingsUrl = pathname.split('/').includes('all-subaccounts');
+
+  let str = 'all-';
+  // console.log(pathname.split('/'));
+
+  // const getUrl = (val) => {
+  //   if (pathname.split('/').includes(val)) {
+  //     console.log(val);
+  //   }
+  // };
 
   const [isMounted, setIsMounted] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
   const openState = useMemo(() => (defaultOpen ? { open: true } : {}), [defaultOpen]);
-
-  console.log(openState);
 
   useEffect(() => {
     setIsMounted(true);
@@ -260,15 +268,31 @@ const MenuOptions = ({
                       <CommandItem
                         key={option.id}
                         className={clsx(
-                          'md:w-[320px] w-full mb-2',
-                          pathname === option.link ? 'bg-primary font-bold text-white' : '',
+                          'md:w-[320px] w-full mb-2 ',
+                          pathname.split('/').includes(option.name.toLocaleLowerCase()) ||
+                            pathname
+                              .split('/')
+                              .includes(
+                                str.concat(option.name.split(' ').join('').toLocaleLowerCase()),
+                              ) ||
+                            pathname === option.link
+                            ? 'bg-primary font-bold text-white'
+                            : '',
                         )}
                       >
                         <Link
                           href={option.link}
                           className={clsx(
                             'flex items-center gap-2 hover:bg-transparent rounded-md transition-all md:w-full w-[320px]',
-                            pathname === option.link ? 'pointer-events-none' : '',
+                            pathname.split('/').includes(option.name.toLocaleLowerCase()) ||
+                              pathname
+                                .split('/')
+                                .includes(
+                                  str.concat(option.name.split(' ').join('').toLocaleLowerCase()),
+                                ) ||
+                              pathname === option.link
+                              ? 'pointer-events-none'
+                              : '',
                           )}
                           onClick={() => !defaultOpen && setMenuOpen(false)}
                         >

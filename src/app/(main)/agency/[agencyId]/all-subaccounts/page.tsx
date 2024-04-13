@@ -1,3 +1,8 @@
+import { getAuthUserDetails } from '@/lib/queries';
+import { SubAccount } from '@prisma/client';
+import Image from 'next/image';
+import Link from 'next/link';
+
 import { AlertDescription } from '@/components/ui/alert';
 import {
   AlertDialog,
@@ -18,10 +23,6 @@ import {
   CommandItem,
   CommandList,
 } from '@/components/ui/command';
-import { getAuthUserDetails } from '@/lib/queries';
-import { SubAccount } from '@prisma/client';
-import Image from 'next/image';
-import Link from 'next/link';
 
 import CreateSubAccountButton from './_components/create-subaccount-btn';
 import DeleteButton from './_components/delete-button';
@@ -98,7 +99,7 @@ const SubAccountsPage = async ({ params }: SubAccountsPageProps) => {
                       </AlertDialogHeader>
                       <AlertDialogFooter className="flex">
                         <AlertDialogCancel>Cancel</AlertDialogCancel>
-                        <AlertDialogAction className="bg-destructive hover:bg-red-600">
+                        <AlertDialogAction className="bg-destructive hover:bg-red-600 text-white">
                           <DeleteButton subaccountId={subaccount.id} />
                         </AlertDialogAction>
                       </AlertDialogFooter>

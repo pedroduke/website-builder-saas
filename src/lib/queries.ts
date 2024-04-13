@@ -1,12 +1,14 @@
 'use server';
 
 import { clerkClient, currentUser } from '@clerk/nextjs';
-import { Agency, Plan, Role, SubAccount, User } from '@prisma/client';
+import { Agency, Plan, Prisma, Role, SubAccount, User } from '@prisma/client';
 import { redirect } from 'next/navigation';
+import { pipeline } from 'stream';
 import { v4 } from 'uuid';
+import { z } from 'zod';
 
 import { db } from './db';
-import { createMediaType } from './types';
+import { CreateFunnelFormSchema, createMediaType } from './types';
 
 export const getAuthUserDetails = async () => {
   const user = await currentUser();
@@ -270,16 +272,6 @@ export const upsertAgency = async (agency: Agency, price?: Plan) => {
               link: `/agency/${agency.id}/launchpad`,
             },
             {
-              name: 'Billing',
-              icon: 'payment',
-              link: `/agency/${agency.id}/billing`,
-            },
-            {
-              name: 'Settings',
-              icon: 'settings',
-              link: `/agency/${agency.id}/settings`,
-            },
-            {
               name: 'Sub Accounts',
               icon: 'person',
               link: `/agency/${agency.id}/all-subaccounts`,
@@ -288,6 +280,16 @@ export const upsertAgency = async (agency: Agency, price?: Plan) => {
               name: 'Team',
               icon: 'shield',
               link: `/agency/${agency.id}/team`,
+            },
+            {
+              name: 'Billing',
+              icon: 'payment',
+              link: `/agency/${agency.id}/billing`,
+            },
+            {
+              name: 'Settings',
+              icon: 'settings',
+              link: `/agency/${agency.id}/settings`,
             },
           ],
         },
@@ -361,14 +363,14 @@ export const upsertSubAccount = async (subAccount: SubAccount) => {
       SidebarOption: {
         create: [
           {
+            name: 'Dashboard',
+            icon: 'category',
+            link: `/subaccount/${subAccount.id}`,
+          },
+          {
             name: 'Launchpad',
             icon: 'clipboardIcon',
             link: `/subaccount/${subAccount.id}/launchpad`,
-          },
-          {
-            name: 'Settings',
-            icon: 'settings',
-            link: `/subaccount/${subAccount.id}/settings`,
           },
           {
             name: 'Funnels',
@@ -376,9 +378,9 @@ export const upsertSubAccount = async (subAccount: SubAccount) => {
             link: `/subaccount/${subAccount.id}/funnels`,
           },
           {
-            name: 'Media',
-            icon: 'database',
-            link: `/subaccount/${subAccount.id}/media`,
+            name: 'Pipelines',
+            icon: 'flag',
+            link: `/subaccount/${subAccount.id}/pipelines`,
           },
           {
             name: 'Automations',
@@ -386,9 +388,9 @@ export const upsertSubAccount = async (subAccount: SubAccount) => {
             link: `/subaccount/${subAccount.id}/automations`,
           },
           {
-            name: 'Pipelines',
-            icon: 'flag',
-            link: `/subaccount/${subAccount.id}/pipelines`,
+            name: 'Media',
+            icon: 'database',
+            link: `/subaccount/${subAccount.id}/media`,
           },
           {
             name: 'Contacts',
@@ -396,9 +398,9 @@ export const upsertSubAccount = async (subAccount: SubAccount) => {
             link: `/subaccount/${subAccount.id}/contacts`,
           },
           {
-            name: 'Dashboard',
-            icon: 'category',
-            link: `/subaccount/${subAccount.id}`,
+            name: 'Settings',
+            icon: 'settings',
+            link: `/subaccount/${subAccount.id}/settings`,
           },
         ],
       },
@@ -557,6 +559,80 @@ export const deleteMedia = async (mediaId: string) => {
   const response = await db.media.delete({
     where: {
       id: mediaId,
+    },
+  });
+  return response;
+};
+
+export const getPipelineDetails = async (pipelineId: string) => {
+  const response = await db.pipeline.findUnique({
+    where: {
+      id: pipelineId,
+    },
+  });
+  return response;
+};
+
+export const getLanesWithTicketAndTags = async (pipelineId: string) => {
+  const response = await db.lane.findMany({
+    where: {
+      id: pipelineId,
+    },
+    orderBy: {
+      order: 'asc',
+    },
+    include: {
+      Tickets: {
+        orderBy: {
+          order: 'asc',
+        },
+        include: {
+          Tags: true,
+          Assigned: true,
+          Customer: true,
+        },
+      },
+    },
+  });
+  return response;
+};
+
+export const upsertFunnel = async (
+  subaccountId: string,
+  funnel: z.infer<typeof CreateFunnelFormSchema> & { liveProducts: string },
+  funnelId: string,
+) => {
+  const response = await db.funnel.upsert({
+    where: {
+      id: funnelId,
+    },
+    update: funnel,
+    create: {
+      ...funnel,
+      id: funnelId || v4(),
+      subAccountId: subaccountId,
+    },
+  });
+
+  return response;
+};
+
+export const upsertPipeline = async (pipeline: Prisma.PipelineUncheckedCreateWithoutLaneInput) => {
+  const response = await db.pipeline.upsert({
+    where: {
+      id: pipeline.id || v4(),
+    },
+    update: pipeline,
+    create: pipeline,
+  });
+
+  return response;
+};
+
+export const deletePipeline = async (pipelineId: string) => {
+  const response = await db.pipeline.delete({
+    where: {
+      id: pipelineId,
     },
   });
   return response;
