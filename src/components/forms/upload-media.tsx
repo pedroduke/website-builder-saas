@@ -3,6 +3,7 @@
 import { createMedia, saveActivityLogsNotification } from '@/lib/queries';
 import { useModal } from '@/providers/modal-provider';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { Loader2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -107,7 +108,13 @@ const UploadMediaForm = ({ subaccountId }: UploadMediaFormProps) => {
               )}
             />
             <Button type="submit" className="mt-4 text-white">
-              Upload Media
+              {form.formState.isSubmitting ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Media Uploading...
+                </>
+              ) : (
+                'Upload Media'
+              )}
             </Button>
           </form>
         </Form>

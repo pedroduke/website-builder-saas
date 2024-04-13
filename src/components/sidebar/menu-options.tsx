@@ -1,5 +1,15 @@
 'use client';
 
+import { icons } from '@/lib/constants';
+import { useModal } from '@/providers/modal-provider';
+import { Agency, AgencySidebarOption, SubAccount, SubAccountSidebarOption } from '@prisma/client';
+import clsx from 'clsx';
+import { ChevronsUpDown, Compass, Menu, PlusCircleIcon } from 'lucide-react';
+import Image from 'next/image';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { useEffect, useMemo, useState } from 'react';
+
 import { AspectRatio } from '@/components/ui/aspect-ratio';
 import { Button } from '@/components/ui/button';
 import {
@@ -13,15 +23,6 @@ import {
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Separator } from '@/components/ui/separator';
 import { Sheet, SheetClose, SheetContent, SheetTrigger } from '@/components/ui/sheet';
-import { icons } from '@/lib/constants';
-import { useModal } from '@/providers/modal-provider';
-import { Agency, AgencySidebarOption, SubAccount, SubAccountSidebarOption } from '@prisma/client';
-import clsx from 'clsx';
-import { ChevronsUpDown, Compass, Menu, PlusCircleIcon } from 'lucide-react';
-import Image from 'next/image';
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import { useEffect, useMemo, useState } from 'react';
 
 import SubAccountDetails from '../forms/subaccount-details';
 import CustomModal from '../global/custom-modal';
@@ -49,8 +50,11 @@ const MenuOptions = ({
   const pathname = usePathname();
 
   const [isMounted, setIsMounted] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const openState = useMemo(() => (defaultOpen ? { open: true } : {}), [defaultOpen]);
+
+  console.log(openState);
 
   useEffect(() => {
     setIsMounted(true);
@@ -59,7 +63,7 @@ const MenuOptions = ({
   if (!isMounted) return;
 
   return (
-    <Sheet modal={false} {...openState}>
+    <Sheet modal={false} open={menuOpen} onOpenChange={setMenuOpen} {...openState}>
       <SheetTrigger asChild className="absolute left-4 top-4 z-[100] md:!hidden flex">
         <Button variant="outline" size={'icon'}>
           <Menu />
@@ -71,7 +75,7 @@ const MenuOptions = ({
         side={'left'}
         className={clsx('bg-background/80 backdrop-blur-xl fixed top-0 border-r-[1px] p-6', {
           'hidden md:inline-block z-0 w-[300px]': defaultOpen,
-          'inline-block md:hidden z-[100] w-full': !defaultOpen,
+          'inline-block md:hidden z-[100] w-full overflow-auto': !defaultOpen,
         })}
       >
         <div>
@@ -266,6 +270,7 @@ const MenuOptions = ({
                             'flex items-center gap-2 hover:bg-transparent rounded-md transition-all md:w-full w-[320px]',
                             pathname === option.link ? 'pointer-events-none' : '',
                           )}
+                          onClick={() => !defaultOpen && setMenuOpen(false)}
                         >
                           {val}
                           <span>{option.name}</span>
