@@ -34,7 +34,9 @@ const PipelineSettings = ({ pipelineId, subaccountId, pipelines }: PipelineSetti
       <div>
         <div className="flex items-center justify-end mb-4">
           <AlertDialogTrigger asChild>
-            <Button variant="destructive">Delete Pipeline</Button>
+            <Button className="hover:bg-red-600" variant="destructive">
+              Delete Pipeline
+            </Button>
           </AlertDialogTrigger>
           <AlertDialogContent>
             <AlertDialogHeader>
@@ -44,7 +46,7 @@ const PipelineSettings = ({ pipelineId, subaccountId, pipelines }: PipelineSetti
                 your data from our servers.
               </AlertDialogDescription>
             </AlertDialogHeader>
-            <AlertDialogFooter className="items-center">
+            <AlertDialogFooter className="flex">
               <AlertDialogCancel>Cancel</AlertDialogCancel>
               <AlertDialogAction
                 className="bg-destructive hover:bg-red-600 text-white"

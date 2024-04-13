@@ -107,7 +107,7 @@ const UploadMediaForm = ({ subaccountId }: UploadMediaFormProps) => {
                 </FormItem>
               )}
             />
-            <Button type="submit" className="mt-4 text-white">
+            <Button type="submit" className="w-full mt-4 text-white">
               {form.formState.isSubmitting ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Media Uploading...

@@ -1,10 +1,16 @@
 'use client';
 
-import { saveActivityLogsNotification, upsertFunnel, upsertPipeline } from '@/lib/queries';
-import { CreatePipelineFormSchema } from '@/lib/types';
+import {
+  getPipelineDetails,
+  saveActivityLogsNotification,
+  upsertFunnel,
+  upsertLane,
+  upsertPipeline,
+} from '@/lib/queries';
+import { LaneFormSchema } from '@/lib/types';
 import { useModal } from '@/providers/modal-provider';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Funnel, Pipeline } from '@prisma/client';
+import { Funnel, Lane, Pipeline } from '@prisma/client';
 import { Loader2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import React, { useEffect } from 'react';
@@ -27,17 +33,17 @@ import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { toast } from '../ui/use-toast';
 
-interface CreatePipelineFormProps {
-  defaultData?: Pipeline;
-  subAccountId: string;
+interface LaneFormProps {
+  defaultData?: Lane;
+  pipelineId: string;
 }
 
-const CreatePipelineForm: React.FC<CreatePipelineFormProps> = ({ defaultData, subAccountId }) => {
-  const { data, isOpen, setOpen, setClose } = useModal();
+const LaneForm: React.FC<LaneFormProps> = ({ defaultData, pipelineId }) => {
+  const { setClose } = useModal();
   const router = useRouter();
-  const form = useForm<z.infer<typeof CreatePipelineFormSchema>>({
+  const form = useForm<z.infer<typeof LaneFormSchema>>({
     mode: 'onChange',
-    resolver: zodResolver(CreatePipelineFormSchema),
+    resolver: zodResolver(LaneFormSchema),
     defaultValues: {
       name: defaultData?.name || '',
     },
@@ -53,41 +59,46 @@ const CreatePipelineForm: React.FC<CreatePipelineFormProps> = ({ defaultData, su
 
   const isLoading = form.formState.isLoading;
 
-  const onSubmit = async (values: z.infer<typeof CreatePipelineFormSchema>) => {
-    if (!subAccountId) return;
+  const onSubmit = async (values: z.infer<typeof LaneFormSchema>) => {
+    if (!pipelineId) return;
 
     try {
-      const response = await upsertPipeline({
+      const response = await upsertLane({
         ...values,
         id: defaultData?.id,
-        subAccountId: subAccountId,
+        pipelineId: pipelineId,
+        order: defaultData?.order,
       });
+
+      const pipelineDetails = await getPipelineDetails(pipelineId);
+
+      if (!pipelineDetails) return;
 
       await saveActivityLogsNotification({
         agencyId: undefined,
-        description: `Updates a pipeline | ${response?.name}`,
-        subaccountId: subAccountId,
+        description: `Updated a lane | ${response?.name}`,
+        subaccountId: pipelineDetails.subAccountId,
       });
 
       toast({
         title: 'Success',
-        description: 'Saved pipeline details',
+        description: 'Saved lane details',
       });
+
       router.refresh();
     } catch (error) {
       toast({
         variant: 'destructive',
         title: 'Oopps!',
-        description: 'Could not save pipeline details',
+        description: 'Could not save lane details',
       });
     }
-
     setClose();
   };
   return (
-    <Card className="w-full">
+    <Card className="w-full ">
       <CardHeader>
-        <CardTitle>Pipeline Details</CardTitle>
+        <CardTitle>Lane Details</CardTitle>
       </CardHeader>
       <CardContent>
         <Form {...form}>
@@ -98,16 +109,16 @@ const CreatePipelineForm: React.FC<CreatePipelineFormProps> = ({ defaultData, su
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Pipeline Name</FormLabel>
+                  <FormLabel>Lane Name</FormLabel>
                   <FormControl>
-                    <Input placeholder="Name" {...field} />
+                    <Input placeholder="Lane Name" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
 
-            <Button className="w-32 mt-4 text-white" disabled={isLoading} type="submit">
+            <Button className="mt-4 text-white" disabled={isLoading} type="submit">
               {form.formState.isSubmitting ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -124,4 +135,4 @@ const CreatePipelineForm: React.FC<CreatePipelineFormProps> = ({ defaultData, su
   );
 };
 
-export default CreatePipelineForm;
+export default LaneForm;
