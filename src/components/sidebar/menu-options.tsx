@@ -48,16 +48,8 @@ const MenuOptions = ({
 }: MenuOptionsProps) => {
   const { setOpen } = useModal();
   const pathname = usePathname();
-  const getSettingsUrl = pathname.split('/').includes('all-subaccounts');
 
   let str = 'all-';
-  // console.log(pathname.split('/'));
-
-  // const getUrl = (val) => {
-  //   if (pathname.split('/').includes(val)) {
-  //     console.log(val);
-  //   }
-  // };
 
   const [isMounted, setIsMounted] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);

@@ -4,10 +4,10 @@ import { deleteLane, saveActivityLogsNotification } from '@/lib/queries';
 import { LaneDetail, TicketWithTags } from '@/lib/types';
 import { cn } from '@/lib/utils';
 import { useModal } from '@/providers/modal-provider';
+import { Draggable, Droppable } from '@hello-pangea/dnd';
 import { Edit, MoreVertical, PlusCircleIcon, Trash } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import React, { Dispatch, SetStateAction, useMemo } from 'react';
-import { Draggable, Droppable } from 'react-beautiful-dnd';
 
 import CreateLaneForm from '@/components/forms/lane-form';
 import TicketForm from '@/components/forms/ticket-form';
@@ -147,7 +147,7 @@ const PipelineLane: React.FC<PipelaneLaneProps> = ({
                         <span className="font-bold text-sm">{laneDetails.name}</span>
                       </div>
                       <div className="flex items-center flex-row">
-                        <Badge className="bg-black text-white dark:bg-white dark:text-black">
+                        <Badge className="bg-black text-white dark:bg-white dark:text-black mr-2">
                           {amt.format(laneAmt)}
                         </Badge>
                         <DropdownMenuTrigger>

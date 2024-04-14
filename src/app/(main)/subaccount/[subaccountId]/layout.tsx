@@ -1,7 +1,3 @@
-import BlurPage from '@/components/global/blur-page';
-import InfoBar from '@/components/global/infobar';
-import Sidebar from '@/components/sidebar';
-import Unauthorized from '@/components/unauthorized';
 import {
   getAuthUserDetails,
   getNotificationAndUser,
@@ -10,6 +6,11 @@ import {
 import { currentUser } from '@clerk/nextjs';
 import { Role } from '@prisma/client';
 import { redirect } from 'next/navigation';
+
+import BlurPage from '@/components/global/blur-page';
+import InfoBar from '@/components/global/infobar';
+import Sidebar from '@/components/sidebar';
+import Unauthorized from '@/components/unauthorized';
 
 type SubAccountLayoutProps = {
   children: React.ReactNode;

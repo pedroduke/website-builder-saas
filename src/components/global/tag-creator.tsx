@@ -193,33 +193,11 @@ const TagCreator = ({ getSelectedTags, subAccountId, defaultTags }: Props) => {
                   <TagComponent title={tag.name} colorName={tag.color} />
                 </div>
 
-                {/* <AlertDialogTrigger> */}
                 <TrashIcon
                   onClick={() => handleDeleteTag(tag.id)}
                   size={16}
                   className="cursor-pointer text-muted-foreground hover:text-red-600  transition-all"
                 />
-                {/* </AlertDialogTrigger> */}
-                {/* <AlertDialogContent>
-                  <AlertDialogHeader>
-                    <AlertDialogTitle className="text-left">
-                      Are you absolutely sure?
-                    </AlertDialogTitle>
-                    <AlertDialogDescription className="text-left">
-                      This action cannot be undone. This will permanently delete your the tag and
-                      remove it from our servers.
-                    </AlertDialogDescription>
-                  </AlertDialogHeader>
-                  <AlertDialogFooter className="flex">
-                    <AlertDialogCancel>Cancel</AlertDialogCancel>
-                    <AlertDialogAction
-                      className="bg-destructive hover:bg-red-600 text-white"
-                      onClick={() => handleDeleteTag(tag.id)}
-                    >
-                      Delete Tag
-                    </AlertDialogAction>
-                  </AlertDialogFooter>
-                </AlertDialogContent> */}
               </CommandItem>
             ))}
           </CommandGroup>

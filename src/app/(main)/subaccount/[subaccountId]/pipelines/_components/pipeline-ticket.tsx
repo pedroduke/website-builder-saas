@@ -1,10 +1,10 @@
 import { deleteTicket, saveActivityLogsNotification } from '@/lib/queries';
 import { TicketWithTags } from '@/lib/types';
 import { useModal } from '@/providers/modal-provider';
+import { Draggable } from '@hello-pangea/dnd';
 import { Contact2, Edit, MoreHorizontalIcon, Trash, User2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import React, { Dispatch, SetStateAction } from 'react';
-import { Draggable } from 'react-beautiful-dnd';
 
 import TicketForm from '@/components/forms/ticket-form';
 import CustomModal from '@/components/global/custom-modal';
