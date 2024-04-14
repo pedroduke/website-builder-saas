@@ -1,4 +1,14 @@
-import { Contact, Lane, Notification, Prisma, Role, Tag, Ticket, User } from '@prisma/client';
+import {
+  Contact,
+  Lane,
+  Notification,
+  Prisma,
+  Role,
+  SubAccount,
+  Tag,
+  Ticket,
+  User,
+} from '@prisma/client';
 import { z } from 'zod';
 
 import { db } from './db';
@@ -96,3 +106,12 @@ export const TicketFormSchema = z.object({
 });
 
 export type TicketDetails = Prisma.PromiseReturnType<typeof _getTicketsWithAllRelations>;
+
+export type SubAccountWithContacts = SubAccount & {
+  Contact: (Contact & { Ticket: Ticket[] })[];
+};
+
+export const ContactUserFormSchema = z.object({
+  name: z.string().min(1, 'Required'),
+  email: z.string().email(),
+});

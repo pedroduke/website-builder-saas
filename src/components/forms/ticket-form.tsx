@@ -40,7 +40,14 @@ import TagCreator from '../global/tag-creator';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { Button } from '../ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
-import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem } from '../ui/command';
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from '../ui/command';
 import { Input } from '../ui/input';
 import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
 import { Textarea } from '../ui/textarea';
@@ -257,37 +264,41 @@ const TicketForm = ({ getNewTicket, laneId, subaccountId }: TicketFormProps) => 
                     onChangeCapture={async (value) => {
                       //@ts-ignore
                       setSearch(value.target.value);
+
                       if (saveTimerRef.current) clearTimeout(saveTimerRef.current);
                       saveTimerRef.current = setTimeout(async () => {
                         const response = await searchContacts(
                           //@ts-ignore
                           value.target.value,
                         );
+
                         setContactList(response);
                         setSearch('');
                       }, 1000);
                     }}
                   />
-                  <CommandEmpty>No Customer found.</CommandEmpty>
-                  <CommandGroup>
-                    {contactList.map((c) => (
-                      <CommandItem
-                        key={c.id}
-                        value={c.id}
-                        onSelect={(currentValue) => {
-                          setContact(currentValue === contact ? '' : currentValue);
-                        }}
-                      >
-                        {c.name}
-                        <CheckIcon
-                          className={cn(
-                            'ml-auto h-4 w-4',
-                            contact === c.id ? 'opacity-100' : 'opacity-0',
-                          )}
-                        />
-                      </CommandItem>
-                    ))}
-                  </CommandGroup>
+                  <CommandList>
+                    <CommandEmpty>No Customer found.</CommandEmpty>
+                    <CommandGroup>
+                      {contactList.map((c) => (
+                        <CommandItem
+                          key={c.id}
+                          value={c.id}
+                          onSelect={(currentValue) => {
+                            setContact(currentValue === contact ? '' : currentValue);
+                          }}
+                        >
+                          {c.name}
+                          <CheckIcon
+                            className={cn(
+                              'ml-auto h-4 w-4',
+                              contact === c.id ? 'opacity-100' : 'opacity-0',
+                            )}
+                          />
+                        </CommandItem>
+                      ))}
+                    </CommandGroup>
+                  </CommandList>
                 </Command>
               </PopoverContent>
             </Popover>

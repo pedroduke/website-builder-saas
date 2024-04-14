@@ -1,5 +1,12 @@
 'use client';
 
+import { NotificationWithUser } from '@/lib/types';
+import { UserButton } from '@clerk/nextjs';
+import { Role } from '@prisma/client';
+import { Bell } from 'lucide-react';
+import { useState } from 'react';
+import { twMerge } from 'tailwind-merge';
+
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Card } from '@/components/ui/card';
 import {
@@ -12,12 +19,6 @@ import {
   SheetTrigger,
 } from '@/components/ui/sheet';
 import { Switch } from '@/components/ui/switch';
-import { NotificationWithUser } from '@/lib/types';
-import { UserButton } from '@clerk/nextjs';
-import { Role } from '@prisma/client';
-import { Bell } from 'lucide-react';
-import { useState } from 'react';
-import { twMerge } from 'tailwind-merge';
 
 import { ModeToggle } from './mode-toggle';
 
@@ -61,14 +62,14 @@ const InfoBar = ({ notifications, role, className, subaccountId }: InfoBarProps)
                 <Bell size={17} />
               </div>
             </SheetTrigger>
-            <SheetContent showX={true} className="pr-4 flex flex-col border-none">
+            <SheetContent showX={true} className="pr-4 flex flex-col border-none overflow-y-auto">
               <SheetHeader className="text-left">
                 <SheetTitle>Notifications</SheetTitle>
                 <SheetDescription>
                   {(role === 'AGENCY_ADMIN' || role === 'AGENCY_OWNER') && (
                     <Card className="flex items-center justify-between p-4">
                       Current Sub Account
-                      <Switch onChangeCapture={handleClick} />
+                      <Switch onCheckedChange={handleClick} />
                     </Card>
                   )}
                 </SheetDescription>

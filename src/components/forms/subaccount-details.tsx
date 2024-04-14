@@ -269,7 +269,7 @@ const SubAccountDetails: React.FC<SubAccountDetailsProps> = ({
                 </FormItem>
               )}
             />
-            <Button className="w-full text-white" type="submit" disabled={isLoading}>
+            <Button className="text-white" type="submit" disabled={isLoading}>
               {isLoading ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Saving Account Information...
