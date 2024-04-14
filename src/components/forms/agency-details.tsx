@@ -98,7 +98,7 @@ const AgencyDetails = ({ data }: AgencyDetailsProps) => {
   const handleSubmit = async (values: z.infer<typeof FormSchema>) => {
     try {
       let newUserData;
-      let customerId;
+      let custId;
 
       if (!data?.id) {
         const bodyData = {
@@ -108,7 +108,7 @@ const AgencyDetails = ({ data }: AgencyDetailsProps) => {
             address: {
               city: values.city,
               country: values.country,
-              lin1: values.address,
+              line1: values.address,
               postal_code: values.zipCode,
               state: values.state,
             },
@@ -117,42 +117,59 @@ const AgencyDetails = ({ data }: AgencyDetailsProps) => {
           address: {
             city: values.city,
             country: values.country,
-            lin1: values.address,
+            line1: values.address,
             postal_code: values.zipCode,
             state: values.state,
           },
         };
+
+        const customerResponse = await fetch('/api/stripe/create-customer', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(bodyData),
+        });
+
+        const customerData: { customerId: string } = await customerResponse.json();
+
+        custId = customerData.customerId;
       }
 
       // WIP custId
       newUserData = await initUser({ role: 'AGENCY_OWNER' });
 
-      // if (!data?.customerId) return;
-      if (!data?.id) {
-        await upsertAgency({
-          id: data?.id ? data.id : v4(),
-          customerId: data?.customerId || '',
-          address: values.address,
-          agencyLogo: values.agencyLogo,
-          city: values.city,
-          companyPhone: values.companyPhone,
-          country: values.country,
-          name: values.name,
-          state: values.state,
-          whiteLabel: values.whiteLabel,
-          zipCode: values.zipCode,
-          createdAt: new Date(),
-          updatedAt: new Date(),
-          companyEmail: values.companyEmail,
-          connectAccountId: '',
-          goal: 5,
-        });
+      if (!data?.customerId && !custId) return;
 
-        toast({
-          title: 'Agency Created',
-          description: 'Your Agency was Created, you can start adding Sub Accounts.',
-        });
+      const response = await upsertAgency({
+        id: data?.id ? data.id : v4(),
+        customerId: data?.customerId || custId || '',
+        address: values.address,
+        agencyLogo: values.agencyLogo,
+        city: values.city,
+        companyPhone: values.companyPhone,
+        country: values.country,
+        name: values.name,
+        state: values.state,
+        whiteLabel: values.whiteLabel,
+        zipCode: values.zipCode,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        companyEmail: values.companyEmail,
+        connectAccountId: '',
+        goal: 5,
+      });
 
+      toast({
+        title: 'Agency Created',
+        description: 'Your Agency was Created, you can start adding Sub Accounts.',
+      });
+
+      if (data?.id) {
+        return router.refresh();
+      }
+
+      if (response) {
         return router.refresh();
       }
     } catch (error) {
@@ -167,6 +184,7 @@ const AgencyDetails = ({ data }: AgencyDetailsProps) => {
 
   const handleDeleteAgency = async () => {
     if (!data?.id) return;
+
     setDeletingAgency(true);
     // WIP: cancel user subscription
 
