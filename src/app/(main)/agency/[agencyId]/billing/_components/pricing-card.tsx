@@ -1,5 +1,6 @@
 'use client';
 
+import { addOnProducts } from '@/lib/constants';
 import { PricesList } from '@/lib/types';
 import { useModal } from '@/providers/modal-provider';
 import { useSearchParams } from 'next/navigation';
@@ -29,6 +30,7 @@ type PricingCardProps = {
   customerId: string;
   prices: PricesList['data'];
   planExists: boolean;
+  priceId?: string;
 };
 
 const PricingCard = ({
@@ -43,6 +45,7 @@ const PricingCard = ({
   planExists,
   prices,
   title,
+  priceId,
 }: PricingCardProps) => {
   const { setOpen } = useModal();
   const searchParams = useSearchParams();
@@ -54,8 +57,13 @@ const PricingCard = ({
         title={'Manage Your Plan'}
         subheading="You can change your plan at any time from the billings settings"
       >
-        <SubscriptionFormWrapper customerId={customerId} planExists={planExists} />
+        <SubscriptionFormWrapper
+          priceId={priceId}
+          customerId={customerId}
+          planExists={planExists}
+        />
       </CustomModal>,
+
       async () => ({
         plans: {
           defaultPriceId: plan ? plan : '',
@@ -64,6 +72,7 @@ const PricingCard = ({
       }),
     );
   };
+
   return (
     <Card className="flex flex-col justify-between lg:w-1/2">
       <div>

@@ -1,6 +1,6 @@
 'use client';
 
-import { pricingCards } from '@/lib/constants';
+import { addOnProducts, pricingCards } from '@/lib/constants';
 import { getStripe } from '@/lib/stripe/stripe-client';
 import { useModal } from '@/providers/modal-provider';
 import { Plan } from '@prisma/client';
@@ -11,7 +11,6 @@ import { Loader2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useMemo, useState } from 'react';
 
-// import Loading from '@/components/global/loading';
 import { Card, CardHeader, CardTitle } from '@/components/ui/card';
 import { toast } from '@/components/ui/use-toast';
 
@@ -20,13 +19,14 @@ import SubscriptionForm from '.';
 type Props = {
   customerId: string;
   planExists: boolean;
+  priceId?: string;
 };
 
-const SubscriptionFormWrapper = ({ customerId, planExists }: Props) => {
+const SubscriptionFormWrapper = ({ priceId, customerId, planExists }: Props) => {
   const { data, setClose } = useModal();
   const router = useRouter();
 
-  const [selectedPriceId, setSelectedPriceId] = useState<Plan | ''>(
+  const [selectedPriceId, setSelectedPriceId] = useState<Plan | string | ''>(
     data?.plans?.defaultPriceId || '',
   );
 
@@ -84,6 +84,7 @@ const SubscriptionFormWrapper = ({ customerId, planExists }: Props) => {
 
   useEffect(() => {
     if (!selectedPriceId) return;
+
     const createSecret = async () => {
       const subscriptionResponse = await fetch('/api/stripe/create-subscription', {
         method: 'POST',
@@ -95,11 +96,14 @@ const SubscriptionFormWrapper = ({ customerId, planExists }: Props) => {
           priceId: selectedPriceId,
         }),
       });
+
       const subscriptionResponseData = await subscriptionResponse.json();
+
       setSubscription({
         clientSecret: subscriptionResponseData.clientSecret,
         subscriptionId: subscriptionResponseData.subscriptionId,
       });
+
       if (planExists) {
         toast({
           title: 'Success',
@@ -109,7 +113,41 @@ const SubscriptionFormWrapper = ({ customerId, planExists }: Props) => {
         router.refresh();
       }
     };
-    createSecret();
+
+    const createSecretAddOn = async () => {
+      const addOnResponse = await fetch('/api/stripe/create-addon', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          customerId,
+          priceId: selectedPriceId,
+        }),
+      });
+
+      const addOnResponseData = await addOnResponse.json();
+
+      setSubscription({
+        clientSecret: addOnResponseData.clientSecret,
+        subscriptionId: addOnResponseData.subscriptionId,
+      });
+
+      if (planExists) {
+        toast({
+          title: 'Success',
+          description: 'Your plan has been successfully upgraded!',
+        });
+        setClose();
+        router.refresh();
+      }
+    };
+
+    if (priceId === addOnProducts[0].priceId) {
+      createSecretAddOn();
+    } else {
+      createSecret();
+    }
   }, [data, selectedPriceId, customerId]);
 
   return (
@@ -117,7 +155,7 @@ const SubscriptionFormWrapper = ({ customerId, planExists }: Props) => {
       <div className="flex flex-col gap-4">
         {data.plans?.plans.map((price) => (
           <Card
-            onClick={() => setSelectedPriceId(price.id as Plan)}
+            onClick={() => setSelectedPriceId(price.id as string)}
             key={price.id}
             className={clsx('relative cursor-pointer transition-all hover:border-primary/60', {
               'border-primary': selectedPriceId === price.id,
@@ -126,9 +164,12 @@ const SubscriptionFormWrapper = ({ customerId, planExists }: Props) => {
             <CardHeader>
               <CardTitle>
                 ${price.unit_amount ? price.unit_amount / 100 : '0'}
-                <p className="text-sm text-muted-foreground mt-2">{price.nickname}</p>
+                <p className="text-sm text-muted-foreground mt-2">
+                  {price.nickname || addOnProducts[0].title}
+                </p>
                 <p className="text-sm text-muted-foreground">
-                  {pricingCards.find((p) => p.priceId === price.id)?.description}
+                  {pricingCards.find((p) => p.priceId === price.id)?.description ||
+                    addOnProducts[0].description}
                 </p>
               </CardTitle>
             </CardHeader>

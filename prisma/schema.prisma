@@ -107,7 +107,7 @@ model Agency {
   Invitation       Invitation[]
   Notification     Notification[]
   Subscription     Subscription?
-  AddOns           AddOns[]
+  AddOns           AddOns?
 }
 
 model SubAccount {
@@ -405,6 +405,7 @@ model Notification {
 enum Plan {
   price_1P5Y2mE99HLx3JqlqFlCVwHT
   price_1P5Y2mE99HLx3Jqlxl5TOvrp
+  price_1P5YKOE99HLx3Jql9M8uG4FS
 }
 
 model Subscription {
@@ -430,11 +431,17 @@ model AddOns {
   id        String   @id @default(uuid())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  name      String
+  price     String?
   active    Boolean  @default(false)
-  priceId   String   @unique
-  agencyId  String?
-  Agency    Agency?  @relation(fields: [agencyId], references: [id])
 
-  @@index([agencyId])
+  priceId              String
+  customerId           String
+  currentPeriodEndDate DateTime
+  subscriptionId     String   @unique
+  name             String?
+  
+  agencyId String? @unique
+  Agency   Agency? @relation(fields: [agencyId], references: [id])
+
+  @@index([customerId])
 }

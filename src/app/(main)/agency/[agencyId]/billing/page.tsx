@@ -38,10 +38,27 @@ const page = async ({ params }: Props) => {
     },
   });
 
+  const agencyAddOns = await db.agency.findUnique({
+    where: {
+      id: params.agencyId,
+    },
+    select: {
+      customerId: true,
+      AddOns: true,
+    },
+  });
+
   const prices = await stripe.prices.list({
     product: process.env.NEXT_AURA_PRODUCT_ID,
     active: true,
   });
+
+  const addOnPrices = await stripe.prices.list({
+    product: process.env.NEXT_AURA_ADDON_ID,
+    active: true,
+  });
+
+  const priceIdProps = addOnPrices.data[0].id;
 
   const currentPlanDetails = pricingCards.find(
     (c) => c.priceId === agencySubscription?.Subscription?.priceId,
@@ -112,7 +129,7 @@ const page = async ({ params }: Props) => {
         {addOns.data.map((addOn) => (
           <PricingCard
             planExists={agencySubscription?.Subscription?.active === true}
-            prices={prices.data}
+            prices={addOnPrices.data}
             customerId={agencySubscription?.customerId || ''}
             key={addOn.id}
             amt={
@@ -125,10 +142,11 @@ const page = async ({ params }: Props) => {
             buttonCta="Subscribe"
             description="Dedicated support line & teams channel for support"
             duration="/month"
-            features={[]}
-            title={'24/7 priority support'}
+            features={['Rebilling', '24/7 Priority Support']}
+            title={'24/7 Priority Support'}
             highlightTitle="Get support now!"
             highlightDescription="Get priority support and skip the long long with the click of a button."
+            priceId={priceIdProps}
           />
         ))}
       </div>

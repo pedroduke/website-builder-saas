@@ -1,5 +1,6 @@
+import { addOnProducts } from '@/lib/constants';
 import { stripe } from '@/lib/stripe';
-import { subscriptionCreated } from '@/lib/stripe/stripe-actions';
+import { addOnCreated, subscriptionCreated } from '@/lib/stripe/stripe-actions';
 import { headers } from 'next/headers';
 import { NextRequest, NextResponse } from 'next/server';
 import Stripe from 'stripe';
@@ -46,7 +47,12 @@ export async function POST(req: NextRequest) {
           case 'customer.subscription.created':
           case 'customer.subscription.updated': {
             if (subscription.status === 'active') {
-              await subscriptionCreated(subscription, subscription.customer as string);
+              // @ts-ignore
+              if (subscription.plan.id === addOnProducts[0].priceId) {
+                await addOnCreated(subscription, subscription.customer as string);
+              } else {
+                await subscriptionCreated(subscription, subscription.customer as string);
+              }
               console.log('CREATED FROM WEBHOOK 💳', subscription);
             } else {
               console.log(

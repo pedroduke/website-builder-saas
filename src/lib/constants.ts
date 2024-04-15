@@ -58,7 +58,17 @@ export const pricingCards = [
   },
 ];
 
-export const addOnProducts = [{ title: 'Priority Support', id: 'prod_PvP89GJjR6vCaR' }];
+export const addOnProducts = [
+  {
+    title: 'Priority Support',
+    description: 'For business growth with 24/7 Priority Support',
+    price: '$450',
+    highlight: 'Everything you need with Priority Support',
+    id: 'prod_PvP89GJjR6vCaR',
+    features: ['Rebilling', '24/7 Priority Support'],
+    priceId: 'price_1P5YKOE99HLx3Jql9M8uG4FS',
+  },
+];
 
 export const icons = [
   {
