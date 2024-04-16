@@ -20,11 +20,20 @@ type Props = {
   customerId: string;
   planExists: boolean;
   priceId?: string;
+  subscriptionStatus?: string;
+  addOnStatus?: string;
 };
 
-const SubscriptionFormWrapper = ({ priceId, customerId, planExists }: Props) => {
+const SubscriptionFormWrapper = ({
+  priceId,
+  customerId,
+  planExists,
+  subscriptionStatus,
+  addOnStatus,
+}: Props) => {
   const { data, setClose } = useModal();
   const router = useRouter();
+  const checkStatus = (!planExists && subscriptionStatus !== 'active') || addOnStatus !== 'active';
 
   const [selectedPriceId, setSelectedPriceId] = useState<Plan | string | ''>(
     data?.plans?.defaultPriceId || '',
@@ -104,11 +113,12 @@ const SubscriptionFormWrapper = ({ priceId, customerId, planExists }: Props) => 
         subscriptionId: subscriptionResponseData.subscriptionId,
       });
 
-      if (planExists) {
+      if (planExists && subscriptionStatus === 'active') {
         toast({
           title: 'Success',
           description: 'Your plan has been successfully upgraded!',
         });
+
         setClose();
         router.refresh();
       }
@@ -133,11 +143,12 @@ const SubscriptionFormWrapper = ({ priceId, customerId, planExists }: Props) => 
         subscriptionId: addOnResponseData.subscriptionId,
       });
 
-      if (planExists) {
+      if (planExists && addOnStatus === 'active') {
         toast({
           title: 'Success',
           description: 'Your plan has been successfully upgraded!',
         });
+
         setClose();
         router.refresh();
       }
@@ -179,7 +190,7 @@ const SubscriptionFormWrapper = ({ priceId, customerId, planExists }: Props) => 
           </Card>
         ))}
 
-        {options.clientSecret && !planExists && (
+        {options.clientSecret && checkStatus && (
           <div className="m-2">
             <h1 className="text-xl mb-2">Payment Method</h1>
             <Elements stripe={getStripe()} options={options}>

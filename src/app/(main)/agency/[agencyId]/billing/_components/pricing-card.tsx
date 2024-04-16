@@ -1,11 +1,14 @@
 'use client';
 
-import { addOnProducts } from '@/lib/constants';
 import { PricesList } from '@/lib/types';
 import { useModal } from '@/providers/modal-provider';
+import clsx from 'clsx';
+import { format } from 'date-fns';
 import { useSearchParams } from 'next/navigation';
 import React from 'react';
 
+import CancelAddOnForm from '@/components/forms/subscription-form/cancel-addon-form';
+import CancelSubscriptionForm from '@/components/forms/subscription-form/cancel-subscription-form';
 import SubscriptionFormWrapper from '@/components/forms/subscription-form/subscription-form-wrapper';
 import CustomModal from '@/components/global/custom-modal';
 import { Button } from '@/components/ui/button';
@@ -31,6 +34,14 @@ type PricingCardProps = {
   prices: PricesList['data'];
   planExists: boolean;
   priceId?: string;
+  addOnIsSubscribed?: boolean;
+  addOnIsCanceled?: boolean;
+  addOnCurrentPeriodEndDate?: Date | null;
+  subscriptionIsSubscribed?: boolean;
+  subscriptionIsCanceled?: boolean;
+  subscriptionCurrentPeriodEndDate?: Date | null;
+  subscriptionStatus?: string;
+  addOnStatus?: string;
 };
 
 const PricingCard = ({
@@ -46,6 +57,14 @@ const PricingCard = ({
   prices,
   title,
   priceId,
+  addOnIsSubscribed,
+  addOnIsCanceled,
+  addOnCurrentPeriodEndDate,
+  subscriptionIsSubscribed,
+  subscriptionIsCanceled,
+  subscriptionCurrentPeriodEndDate,
+  subscriptionStatus,
+  addOnStatus,
 }: PricingCardProps) => {
   const { setOpen } = useModal();
   const searchParams = useSearchParams();
@@ -61,6 +80,8 @@ const PricingCard = ({
           priceId={priceId}
           customerId={customerId}
           planExists={planExists}
+          subscriptionStatus={subscriptionStatus}
+          addOnStatus={addOnStatus}
         />
       </CustomModal>,
 
@@ -73,8 +94,45 @@ const PricingCard = ({
     );
   };
 
+  const handleCancelPlan = async () => {
+    setOpen(
+      <CustomModal
+        title={'Cancel Subscription'}
+        subheading="Are you sure you want to cancel the Subscription?"
+      >
+        <CancelSubscriptionForm customerId={customerId} planExists={planExists} />
+      </CustomModal>,
+
+      async () => ({
+        plans: {
+          defaultPriceId: plan ? plan : '',
+          plans: prices,
+        },
+      }),
+    );
+  };
+
+  const handleCancelAddOn = async () => {
+    setOpen(
+      <CustomModal title={'Cancel AddOn'} subheading="Are you sure you want to cancel the AddOn?">
+        <CancelAddOnForm customerId={customerId} planExists={planExists} />
+      </CustomModal>,
+
+      async () => ({
+        plans: {
+          defaultPriceId: plan ? plan : '',
+          plans: prices,
+        },
+      }),
+    );
+  };
+
   return (
-    <Card className="flex flex-col justify-between lg:w-1/2">
+    <Card
+      className={clsx('flex flex-col justify-between lg:w-1/2', {
+        'border border-primary': subscriptionIsSubscribed || addOnIsSubscribed,
+      })}
+    >
       <div>
         <CardHeader className="flex flex-col md:!flex-row justify-between">
           <div>
@@ -104,9 +162,49 @@ const PricingCard = ({
               <p className="text-sm text-muted-foreground">{highlightDescription}</p>
             </div>
 
-            <Button className="md:w-fit w-full text-white mt-4" onClick={handleManagePlan}>
+            <Button
+              disabled={addOnIsSubscribed}
+              className="md:w-fit w-full text-white mt-4 mb-2"
+              onClick={handleManagePlan}
+            >
               {buttonCta}
             </Button>
+
+            {subscriptionIsSubscribed ? (
+              subscriptionIsCanceled ? null : (
+                <Button
+                  className="md:w-fit md:ml-2 w-full bg-destructive hover:bg-red-600 text-white mb-2"
+                  onClick={handleCancelPlan}
+                >
+                  {'Cancel Plan'}
+                </Button>
+              )
+            ) : null}
+
+            {addOnIsSubscribed ? (
+              addOnIsCanceled ? null : (
+                <Button
+                  className="md:w-fit md:ml-2 w-full bg-destructive hover:bg-red-600 text-white mb-2"
+                  onClick={handleCancelAddOn}
+                >
+                  {'Cancel AddOn'}
+                </Button>
+              )
+            ) : null}
+
+            {addOnIsSubscribed ? (
+              <p className="rounded-full text-xs font-medium text-muted-foreground">
+                {addOnIsCanceled ? 'Your plan will be canceled on ' : 'Your plan renews on '}
+                {format(addOnCurrentPeriodEndDate!, 'dd.MM.yyyy')}.
+              </p>
+            ) : null}
+
+            {subscriptionIsSubscribed ? (
+              <p className="rounded-full text-xs font-medium text-muted-foreground">
+                {subscriptionIsCanceled ? 'Your plan will be canceled on ' : 'Your plan renews on '}
+                {format(subscriptionCurrentPeriodEndDate!, 'dd.MM.yyyy')}.
+              </p>
+            ) : null}
           </div>
         </Card>
       </CardFooter>

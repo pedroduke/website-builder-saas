@@ -1,6 +1,6 @@
 import { addOnProducts, pricingCards } from '@/lib/constants';
 import { db } from '@/lib/db';
-import { stripe } from '@/lib/stripe';
+import { checkAddOn, checkSubscription, stripe } from '@/lib/stripe';
 import clsx from 'clsx';
 import React from 'react';
 
@@ -15,7 +15,6 @@ import {
 } from '@/components/ui/table';
 
 import PricingCard from './_components/pricing-card';
-import SubscriptionHelper from './_components/subscription-helper';
 
 type Props = {
   params: { agencyId: string };
@@ -27,6 +26,16 @@ const page = async ({ params }: Props) => {
     ids: addOnProducts.map((product) => product.id),
     expand: ['data.default_price'],
   });
+
+  const {
+    subscriptionIsSubscribed,
+    subscriptionIsCanceled,
+    subscriptionCurrentPeriodEndDate,
+    subscriptionStatus,
+  } = await checkSubscription();
+
+  const { addOnIsSubscribed, addOnIsCanceled, addOnCurrentPeriodEndDate, addOnStatus } =
+    await checkAddOn();
 
   const agencySubscription = await db.agency.findUnique({
     where: {
@@ -83,14 +92,8 @@ const page = async ({ params }: Props) => {
 
   return (
     <>
-      <SubscriptionHelper
-        prices={prices.data}
-        customerId={agencySubscription?.customerId || ''}
-        planExists={agencySubscription?.Subscription?.active === true}
-      />
       <h1 className="text-4xl p-4">Billing</h1>
       <Separator className=" mb-6" />
-      <h2 className="text-2xl p-4">Current Plan</h2>
       <div className="flex flex-col lg:!flex-row justify-between gap-8">
         <PricingCard
           planExists={agencySubscription?.Subscription?.active === true}
@@ -125,6 +128,10 @@ const page = async ({ params }: Props) => {
               ? currentPlanDetails?.title || 'Starter'
               : 'Starter'
           }
+          subscriptionIsSubscribed={subscriptionIsSubscribed}
+          subscriptionIsCanceled={subscriptionIsCanceled}
+          subscriptionCurrentPeriodEndDate={subscriptionCurrentPeriodEndDate}
+          subscriptionStatus={subscriptionStatus}
         />
         {addOns.data.map((addOn) => (
           <PricingCard
@@ -139,7 +146,7 @@ const page = async ({ params }: Props) => {
                   `$${addOn.default_price.unit_amount / 100}`
                 : '$0'
             }
-            buttonCta="Subscribe"
+            buttonCta={'Subscribe'}
             description="Dedicated support line & teams channel for support"
             duration="/month"
             features={['Rebilling', '24/7 Priority Support']}
@@ -147,6 +154,10 @@ const page = async ({ params }: Props) => {
             highlightTitle="Get support now!"
             highlightDescription="Get priority support and skip the long long with the click of a button."
             priceId={priceIdProps}
+            addOnIsSubscribed={addOnIsSubscribed}
+            addOnIsCanceled={addOnIsCanceled}
+            addOnCurrentPeriodEndDate={addOnCurrentPeriodEndDate}
+            addOnStatus={addOnStatus}
           />
         ))}
       </div>

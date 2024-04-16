@@ -46,6 +46,10 @@ export async function POST(req: NextRequest) {
         switch (stripeEvent.type) {
           case 'customer.subscription.created':
           case 'customer.subscription.updated': {
+            // @ts-ignore
+            if (subscription.plan.id === addOnProducts[0].priceId) {
+              await addOnCreated(subscription, subscription.customer as string);
+            }
             if (subscription.status === 'active') {
               // @ts-ignore
               if (subscription.plan.id === addOnProducts[0].priceId) {
