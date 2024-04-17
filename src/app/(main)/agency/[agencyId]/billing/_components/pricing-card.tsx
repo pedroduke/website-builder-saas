@@ -163,7 +163,7 @@ const PricingCard = ({
             </div>
 
             <Button
-              disabled={addOnIsSubscribed}
+              disabled={buttonCta === 'Subscribe' && !addOnIsCanceled}
               className="md:w-fit w-full text-white mt-4 mb-2"
               onClick={handleManagePlan}
             >

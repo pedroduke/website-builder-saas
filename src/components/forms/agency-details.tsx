@@ -136,7 +136,6 @@ const AgencyDetails = ({ data }: AgencyDetailsProps) => {
         custId = customerData.customerId;
       }
 
-      // WIP custId
       newUserData = await initUser({ role: 'AGENCY_OWNER' });
 
       if (!data?.customerId && !custId) return;
@@ -185,11 +184,23 @@ const AgencyDetails = ({ data }: AgencyDetailsProps) => {
   const handleDeleteAgency = async () => {
     if (!data?.id) return;
 
+    const customerId = data.customerId;
+
     setDeletingAgency(true);
-    // WIP: cancel user subscription
 
     try {
+      await fetch('/api/stripe/delete-customer', {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          customerId,
+        }),
+      });
+
       const response = await deleteAgency(data.id);
+
       toast({
         title: 'Agency Deleted',
         description: 'Your Agency and all Sub Accounts were Deleted.',

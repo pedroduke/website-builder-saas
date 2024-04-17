@@ -2,7 +2,7 @@ import { db } from '@/lib/db';
 import { stripe } from '@/lib/stripe';
 import { NextResponse } from 'next/server';
 
-export async function DELETE(req: Request) {
+export async function PUT(req: Request) {
   const { customerId } = await req.json();
   if (!customerId)
     return new NextResponse('Customer Id is missing', {

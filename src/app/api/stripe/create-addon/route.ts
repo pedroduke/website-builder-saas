@@ -33,6 +33,7 @@ export async function POST(req: Request) {
       );
 
       const subscription = await stripe.subscriptions.update(addOnExists.AddOns.subscriptionId, {
+        cancel_at_period_end: false,
         items: [
           {
             id: currentSubscriptionDetails.items.data[0].id,

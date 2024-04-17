@@ -21,7 +21,7 @@ const CancelAddOnForm = ({ customerId, planExists }: Props) => {
     if (!planExists) return;
     const cancelAddOn = async () => {
       const subscriptionResponse = await fetch('/api/stripe/cancel-addon', {
-        method: 'DELETE',
+        method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
