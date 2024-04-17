@@ -21,7 +21,6 @@ type Props = {
 };
 
 const page = async ({ params }: Props) => {
-  //CHALLENGE : Create the add on  products
   const addOns = await stripe.products.list({
     ids: addOnProducts.map((product) => product.id),
     expand: ['data.default_price'],
@@ -149,7 +148,7 @@ const page = async ({ params }: Props) => {
             buttonCta={'Subscribe'}
             description="Dedicated support line & teams channel for support"
             duration="/month"
-            features={['Rebilling', '24/7 Priority Support']}
+            features={['24/7 Priority Support']}
             title={'24/7 Priority Support'}
             highlightTitle="Get support now!"
             highlightDescription="Get priority support and skip the long long with the click of a button."

@@ -44,6 +44,9 @@ const SubAccountsPage = async ({ params }: SubAccountsPageProps) => {
         <CreateSubAccountButton
           user={user}
           id={params.agencyId}
+          subAccountData={user.Agency?.SubAccount}
+          subscription={!!user.Agency?.Subscription}
+          addOns={!!user.Agency?.Subscription}
           className="w-[200px] self-end m-6 text-white"
         />
         <Command className="rounded-lg bg-transparent">

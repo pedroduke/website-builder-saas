@@ -30,6 +30,8 @@ export const getAuthUserDetails = async () => {
               SidebarOption: true,
             },
           },
+          Subscription: true,
+          AddOns: true,
         },
       },
       Permissions: true,

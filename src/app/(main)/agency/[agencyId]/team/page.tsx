@@ -1,7 +1,8 @@
-import SendInvitation from '@/components/forms/send-invitation';
 import { db } from '@/lib/db';
 import { currentUser } from '@clerk/nextjs';
 import { Plus } from 'lucide-react';
+
+import SendInvitation from '@/components/forms/send-invitation';
 
 import { columns } from './columns';
 import DataTable from './data-table';
@@ -25,6 +26,8 @@ const TeamPage = async ({ params }: TeamPageProps) => {
       Agency: {
         include: {
           SubAccount: true,
+          Subscription: true,
+          AddOns: true,
         },
       },
       Permissions: {
@@ -43,6 +46,8 @@ const TeamPage = async ({ params }: TeamPageProps) => {
     },
     include: {
       SubAccount: true,
+      Subscription: true,
+      AddOns: true,
     },
   });
 
@@ -60,6 +65,9 @@ const TeamPage = async ({ params }: TeamPageProps) => {
       filterValue="name"
       columns={columns}
       data={teamMembers}
+      teamMembersData={teamMembers}
+      subscription={!!agencyDetails.Subscription}
+      addOns={!!agencyDetails.Subscription}
     ></DataTable>
   );
 };

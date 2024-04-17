@@ -35,6 +35,9 @@ type MenuOptionsProps = {
   details: any;
   user: any;
   id: string;
+  subAccountData?: SubAccount[];
+  subscription?: boolean;
+  addOns?: boolean;
 };
 
 const MenuOptions = ({
@@ -45,6 +48,9 @@ const MenuOptions = ({
   details,
   user,
   id,
+  subAccountData,
+  subscription,
+  addOns,
 }: MenuOptionsProps) => {
   const { setOpen } = useModal();
   const pathname = usePathname();
@@ -55,6 +61,9 @@ const MenuOptions = ({
   const [menuOpen, setMenuOpen] = useState(false);
 
   const openState = useMemo(() => (defaultOpen ? { open: true } : {}), [defaultOpen]);
+
+  const checkSubscriptionStatus =
+    (subAccountData!.length >= 3 && !subscription) || (subAccountData!.length >= 3 && !addOns);
 
   useEffect(() => {
     setIsMounted(true);
@@ -219,6 +228,7 @@ const MenuOptions = ({
                   <SheetClose>
                     <Button
                       className="w-full flex gap-2 text-white"
+                      disabled={checkSubscriptionStatus}
                       onClick={() => {
                         setOpen(
                           <CustomModal
@@ -239,6 +249,11 @@ const MenuOptions = ({
                     </Button>
                   </SheetClose>
                 )}
+                {checkSubscriptionStatus ? (
+                  <p className="text-xs text-muted-foreground mt-1">
+                    You have reached the limit. Consider upgrade your subscription.
+                  </p>
+                ) : null}
               </Command>
             </PopoverContent>
           </Popover>

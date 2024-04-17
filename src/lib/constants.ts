@@ -65,7 +65,7 @@ export const addOnProducts = [
     price: '$450',
     highlight: 'Everything you need with Priority Support',
     id: 'prod_PvP89GJjR6vCaR',
-    features: ['Rebilling', '24/7 Priority Support'],
+    features: ['24/7 Priority Support'],
     priceId: 'price_1P5YKOE99HLx3Jql9M8uG4FS',
   },
 ];

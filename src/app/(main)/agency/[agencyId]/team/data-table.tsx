@@ -28,6 +28,9 @@ interface DataTableProps<TData, TValue> {
   filterValue: string;
   actionButtonText?: React.ReactNode;
   modalChildren?: React.ReactNode;
+  teamMembersData: any;
+  subscription?: boolean;
+  addOns?: boolean;
 }
 
 export default function DataTable<TData, TValue>({
@@ -36,6 +39,9 @@ export default function DataTable<TData, TValue>({
   filterValue,
   actionButtonText,
   modalChildren,
+  teamMembersData,
+  subscription,
+  addOns,
 }: DataTableProps<TData, TValue>) {
   const { setOpen } = useModal();
   const table = useReactTable({
@@ -44,6 +50,9 @@ export default function DataTable<TData, TValue>({
     getCoreRowModel: getCoreRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
   });
+
+  const checkSubscriptionStatus =
+    (teamMembersData.length >= 2 && !subscription) || (teamMembersData.length >= 2 && !addOns);
 
   return (
     <>
@@ -60,6 +69,7 @@ export default function DataTable<TData, TValue>({
           />
         </div>
         <Button
+          disabled={checkSubscriptionStatus}
           className="flex gap-2 text-white"
           onClick={() => {
             if (modalChildren) {
@@ -74,6 +84,11 @@ export default function DataTable<TData, TValue>({
           {actionButtonText}
         </Button>
       </div>
+      {checkSubscriptionStatus ? (
+        <p className="text-xs text-muted-foreground mb-2 flex justify-end">
+          You have reached the limit. Consider upgrade your subscription.
+        </p>
+      ) : null}
       <div className="border bg-background rounded-lg">
         <Table>
           <TableHeader>
