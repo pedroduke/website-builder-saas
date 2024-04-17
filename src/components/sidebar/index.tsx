@@ -52,7 +52,6 @@ const Sidebar = async ({ id, type }: SidebarProps) => {
         sidebarOpt={sidebarOpt}
         subAccounts={subacounts}
         user={user}
-        // checkSubscriptionStatus={checkSubscriptionStatus}
         subAccountData={user.Agency?.SubAccount}
         subscription={!!user.Agency?.Subscription}
         addOns={!!user.Agency?.Subscription}
@@ -64,7 +63,6 @@ const Sidebar = async ({ id, type }: SidebarProps) => {
         sidebarOpt={sidebarOpt}
         subAccounts={subacounts}
         user={user}
-        // checkSubscriptionStatus={checkSubscriptionStatus}
         subAccountData={user.Agency?.SubAccount}
         subscription={!!user.Agency?.Subscription}
         addOns={!!user.Agency?.Subscription}

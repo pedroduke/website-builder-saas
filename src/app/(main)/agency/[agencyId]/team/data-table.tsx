@@ -52,7 +52,7 @@ export default function DataTable<TData, TValue>({
   });
 
   const checkSubscriptionStatus =
-    (teamMembersData.length >= 2 && !subscription) || (teamMembersData.length >= 2 && !addOns);
+    (teamMembersData.length >= 3 && !subscription) || (teamMembersData.length >= 3 && !addOns);
 
   return (
     <>

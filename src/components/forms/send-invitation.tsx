@@ -54,21 +54,25 @@ const SendInvitation: React.FC<SendInvitationProps> = ({ agencyId }) => {
       const res = await sendInvitation(values.role, values.email, agencyId);
       await saveActivityLogsNotification({
         agencyId: agencyId,
-        description: `Invited ${res.email}`,
+        description: `Invited ${values.email}`,
         subaccountId: undefined,
       });
+
       toast({
         title: 'Success',
         description: 'Created and sent invitation',
       });
+
       setClose();
     } catch (error) {
       console.log(error);
+
       toast({
         variant: 'destructive',
         title: 'Oopps!',
         description: 'Could not send invitation',
       });
+      setClose();
     }
   };
 

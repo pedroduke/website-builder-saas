@@ -513,25 +513,24 @@ export const getUser = async (id: string) => {
 };
 
 export const sendInvitation = async (role: Role, email: string, agencyId: string) => {
-  const resposne = await db.invitation.create({
-    data: { email, agencyId, role },
+  const response = await db.invitation.upsert({
+    where: {
+      email,
+    },
+    update: { email, agencyId, role },
+    create: { email, agencyId, role },
   });
 
   try {
     const invitation = await clerkClient.invitations.createInvitation({
       emailAddress: email,
       redirectUrl: process.env.NEXT_PUBLIC_URL,
-      publicMetadata: {
-        throughInvitation: true,
-        role,
-      },
+      ignoreExisting: true,
     });
   } catch (error) {
     console.log(error);
     throw error;
   }
-
-  return resposne;
 };
 
 export const getMedia = async (subaccountId: string) => {
