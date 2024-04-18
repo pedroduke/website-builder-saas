@@ -1,5 +1,5 @@
 import { getFunnel } from '@/lib/queries';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeftCircle } from 'lucide-react';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
 
@@ -28,7 +28,7 @@ const FunnelPage = async ({ params }: FunnelPageProps) => {
         href={`/subaccount/${params.subaccountId}/funnels`}
         className="flex items-center gap-2 mb-4 text-muted-foreground"
       >
-        <ArrowLeft size={15} />
+        <ArrowLeftCircle size={15} />
         Back
       </Link>
       <h1 className="text-3xl mb-8">{funnelPages.name}</h1>
