@@ -181,6 +181,7 @@ const CreateFunnelPage: React.FC<CreateFunnelPageProps> = ({
                       title: 'Success',
                       description: 'Deleted the funnel page',
                     });
+
                     setIsLoading(false);
                     router.refresh();
                   }}

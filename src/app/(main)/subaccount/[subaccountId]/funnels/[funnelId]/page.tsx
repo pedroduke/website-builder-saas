@@ -41,7 +41,7 @@ const FunnelPage = async ({ params }: FunnelPageProps) => {
           <FunnelSteps
             funnel={funnelPages}
             subaccountId={params.subaccountId}
-            pages={funnelPages.FunnelPages}
+            // pages={funnelPages}
             funnelId={params.funnelId}
           />
         </TabsContent>

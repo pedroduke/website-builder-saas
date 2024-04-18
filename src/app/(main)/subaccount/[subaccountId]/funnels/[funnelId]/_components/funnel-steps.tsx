@@ -6,7 +6,6 @@ import { useModal } from '@/providers/modal-provider';
 import { FunnelPage } from '@prisma/client';
 import { Check, ExternalLink, LucideEdit } from 'lucide-react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import { DragDropContext, DragStart, DropResult, Droppable } from 'react-beautiful-dnd';
 
@@ -24,19 +23,23 @@ import FunnelStepCard from './funnel-step-card';
 type Props = {
   funnel: FunnelsForSubAccount;
   subaccountId: string;
-  pages: FunnelPage[];
   funnelId: string;
 };
 
-const FunnelSteps = ({ funnel, funnelId, pages, subaccountId }: Props) => {
-  const [clickedPage, setClickedPage] = useState<FunnelPage | undefined>(pages[0]);
+const FunnelSteps = ({ funnel, funnelId, subaccountId }: Props) => {
+  const [clickedPage, setClickedPage] = useState<FunnelPage | undefined>(funnel.FunnelPages[0]);
   const { setOpen } = useModal();
-  const [pagesState, setPagesState] = useState(pages);
+  const [pagesState, setPagesState] = useState(funnel.FunnelPages);
+
+  if (pagesState.length !== funnel.FunnelPages.length) {
+    setPagesState(funnel.FunnelPages);
+    setClickedPage(funnel.FunnelPages.at(-1));
+  }
 
   const onDragStart = (event: DragStart) => {
     //current chosen page
     const { draggableId } = event;
-    const value = pagesState.find((page) => page.id === draggableId);
+    const value = funnel.FunnelPages.find((page) => page.id === draggableId);
   };
 
   const onDragEnd = (dropResult: DropResult) => {
@@ -50,9 +53,9 @@ const FunnelSteps = ({ funnel, funnelId, pages, subaccountId }: Props) => {
       return;
     }
     //change state
-    const newPageOrder = [...pagesState]
+    const newPageOrder = [...funnel.FunnelPages]
       .toSpliced(source.index, 1)
-      .toSpliced(destination.index, 0, pagesState[source.index])
+      .toSpliced(destination.index, 0, funnel.FunnelPages[source.index])
       .map((page, idx) => {
         return { ...page, order: idx };
       });
@@ -97,7 +100,7 @@ const FunnelSteps = ({ funnel, funnelId, pages, subaccountId }: Props) => {
               <Check />
               Funnel Steps
             </div>
-            {pagesState.length ? (
+            {funnel.FunnelPages.length ? (
               <DragDropContext onDragEnd={onDragEnd} onDragStart={onDragStart}>
                 <Droppable droppableId="funnels" direction="vertical" key="funnels">
                   {(provided) => (
@@ -145,7 +148,7 @@ const FunnelSteps = ({ funnel, funnelId, pages, subaccountId }: Props) => {
           </Button>
         </aside>
         <aside className="flex-[0.7] bg-muted p-4 ">
-          {!!pages.length ? (
+          {!!funnel.FunnelPages.length ? (
             <Card className="h-full flex justify-between flex-col">
               <CardHeader>
                 <p className="text-sm text-muted-foreground">Page name</p>

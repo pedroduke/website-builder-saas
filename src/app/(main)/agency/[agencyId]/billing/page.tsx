@@ -132,33 +132,34 @@ const page = async ({ params }: Props) => {
           subscriptionCurrentPeriodEndDate={subscriptionCurrentPeriodEndDate}
           subscriptionStatus={subscriptionStatus}
         />
-        {addOns.data.map((addOn) => (
-          <PricingCard
-            planExists={agencySubscription?.Subscription?.active === true}
-            prices={addOnPrices.data}
-            customerId={agencySubscription?.customerId || ''}
-            key={addOn.id}
-            amt={
-              //@ts-ignore
-              addOn.default_price?.unit_amount
-                ? //@ts-ignore
-                  `$${addOn.default_price.unit_amount / 100}`
-                : '$0'
-            }
-            buttonCta={'Subscribe'}
-            description="Dedicated support line & teams channel for support"
-            duration="/month"
-            features={['24/7 Priority Support']}
-            title={'24/7 Priority Support'}
-            highlightTitle="Get support now!"
-            highlightDescription="Get priority support and skip the long long with the click of a button."
-            priceId={priceIdProps}
-            addOnIsSubscribed={addOnIsSubscribed}
-            addOnIsCanceled={addOnIsCanceled}
-            addOnCurrentPeriodEndDate={addOnCurrentPeriodEndDate}
-            addOnStatus={addOnStatus}
-          />
-        ))}
+        {agencySubscription?.Subscription?.active === true &&
+          addOns.data.map((addOn) => (
+            <PricingCard
+              planExists={agencyAddOns?.AddOns?.active === true}
+              prices={addOnPrices.data}
+              customerId={agencyAddOns?.customerId || ''}
+              key={addOn.id}
+              amt={
+                //@ts-ignore
+                addOn.default_price?.unit_amount
+                  ? //@ts-ignore
+                    `$${addOn.default_price.unit_amount / 100}`
+                  : '$0'
+              }
+              buttonCta={'Subscribe'}
+              description="Dedicated support line & teams channel for support"
+              duration="/month"
+              features={['24/7 Priority Support']}
+              title={'24/7 Priority Support'}
+              highlightTitle="Get support now!"
+              highlightDescription="Get priority support and skip the long long with the click of a button."
+              priceId={priceIdProps}
+              addOnIsSubscribed={addOnIsSubscribed}
+              addOnIsCanceled={addOnIsCanceled}
+              addOnCurrentPeriodEndDate={addOnCurrentPeriodEndDate}
+              addOnStatus={addOnStatus}
+            />
+          ))}
       </div>
       <h2 className="text-2xl p-4">Payment History</h2>
       <Table className="bg-card border-[1px] border-border rounded-md">
