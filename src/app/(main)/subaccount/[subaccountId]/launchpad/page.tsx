@@ -1,9 +1,12 @@
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { db } from '@/lib/db';
+import { stripe } from '@/lib/stripe';
+import { getStripeOAuthLink } from '@/lib/utils';
 import { CheckCircleIcon } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
+
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 
 type LaunchpadPageProps = {
   params: {
@@ -34,7 +37,27 @@ const LaunchpadPage = async ({ params, searchParams }: LaunchpadPageProps) => {
     subAccountDetails.name &&
     subAccountDetails.state;
 
-  // WIP: Wire up stripe
+  const stripeOAuthLink = getStripeOAuthLink('subaccount', `launchpad___${subAccountDetails.id}`);
+
+  let connectedStripeAccount = false;
+
+  if (searchParams.code) {
+    if (!subAccountDetails.connectAccountId) {
+      try {
+        const response = await stripe.oauth.token({
+          grant_type: 'authorization_code',
+          code: searchParams.code,
+        });
+        await db.subAccount.update({
+          where: { id: params.subaccountId },
+          data: { connectAccountId: response.stripe_user_id },
+        });
+        connectedStripeAccount = true;
+      } catch (error) {
+        console.log('🔴 Could not connect stripe account');
+      }
+    }
+  }
 
   return (
     <div className="flex flex-col justify-center items-center">
@@ -73,12 +96,12 @@ const LaunchpadPage = async ({ params, searchParams }: LaunchpadPageProps) => {
                   Connect your stripe account to accept payments. Stripe is used to run payouts.
                 </p>
               </div>
-              {subAccountDetails.connectAccountId ? (
+              {subAccountDetails.connectAccountId || connectedStripeAccount ? (
                 <CheckCircleIcon size={50} className=" text-primary p-2 flex-shrink-0" />
               ) : (
                 <Link
                   className="hover:bg-primary/90 bg-primary py-2 px-4 rounded-md text-white transition-all"
-                  href={'/'}
+                  href={stripeOAuthLink}
                 >
                   Start
                 </Link>

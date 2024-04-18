@@ -149,7 +149,7 @@ const TicketForm = ({ getNewTicket, laneId, subaccountId }: TicketFormProps) => 
     } catch (error) {
       toast({
         variant: 'destructive',
-        title: 'Oppse!',
+        title: 'Oopps!',
         description: 'Could not save pipeline details',
       });
     }

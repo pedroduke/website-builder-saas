@@ -1,8 +1,9 @@
-import AgencyDetails from '@/components/forms/agency-details';
 import { getAuthUserDetails, verifyAndAcceptInvitation } from '@/lib/queries';
 import { currentUser } from '@clerk/nextjs';
 import { Plan } from '@prisma/client';
 import { redirect } from 'next/navigation';
+
+import AgencyDetails from '@/components/forms/agency-details';
 
 const Page = async ({
   searchParams,
@@ -11,7 +12,6 @@ const Page = async ({
 }) => {
   const agencyId = await verifyAndAcceptInvitation();
 
-  // get users details
   const user = await getAuthUserDetails();
 
   if (agencyId) {

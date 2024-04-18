@@ -23,18 +23,8 @@ const TeamPage = async ({ params }: TeamPageProps) => {
       },
     },
     include: {
-      Agency: {
-        include: {
-          SubAccount: true,
-          Subscription: true,
-          AddOns: true,
-        },
-      },
-      Permissions: {
-        include: {
-          SubAccount: true,
-        },
-      },
+      Agency: { include: { SubAccount: true } },
+      Permissions: { include: { SubAccount: true } },
     },
   });
 
