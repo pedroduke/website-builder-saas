@@ -7,7 +7,6 @@ import { currentUser } from '@clerk/nextjs';
 import { Role } from '@prisma/client';
 import { redirect } from 'next/navigation';
 
-import BlurPage from '@/components/global/blur-page';
 import InfoBar from '@/components/global/infobar';
 import Sidebar from '@/components/sidebar';
 import Unauthorized from '@/components/unauthorized';
@@ -70,9 +69,7 @@ const SubAccountLayout = async ({ children, params }: SubAccountLayoutProps) => 
           role={user.privateMetadata.role as Role}
           subaccountId={params.subaccountId as string}
         />
-        <div className="relative">
-          <BlurPage>{children}</BlurPage>
-        </div>
+        <div className="relative">{children}</div>
       </div>
     </div>
   );

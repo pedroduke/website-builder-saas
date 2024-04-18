@@ -3,6 +3,7 @@ import EditorProvider from '@/providers/editor/editor-provider';
 import { redirect } from 'next/navigation';
 
 import FunnelEditorNavigation from './_components/funnel-editor-navigation';
+import FunnelEditorSidebar from './_components/funnel-editor-sidebar';
 
 type Props = {
   params: {
@@ -24,7 +25,7 @@ const Page = async ({ params }: Props) => {
   }
 
   return (
-    <div className="fixed top-[69px] bottom-0 left-0 right-0 !z-[30] bg-background overflow-hidden">
+    <div className="fixed top-0 bottom-0 left-0 right-0 z-[20] bg-background overflow-hidden">
       <EditorProvider
         subaccountId={params.subaccountId}
         funnelId={params.funnelId}

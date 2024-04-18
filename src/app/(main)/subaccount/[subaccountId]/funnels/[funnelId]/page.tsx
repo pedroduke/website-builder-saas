@@ -3,6 +3,7 @@ import { ArrowLeftCircle } from 'lucide-react';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
 
+import BlurPage from '@/components/global/blur-page';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 import FunnelSettings from './_components/funnel-settings';
@@ -23,7 +24,7 @@ const FunnelPage = async ({ params }: FunnelPageProps) => {
   }
 
   return (
-    <>
+    <BlurPage>
       <Link
         href={`/subaccount/${params.subaccountId}/funnels`}
         className="flex items-center gap-2 mb-4 text-muted-foreground"
@@ -49,7 +50,7 @@ const FunnelPage = async ({ params }: FunnelPageProps) => {
           <FunnelSettings subaccountId={params.subaccountId} defaultData={funnelPages} />
         </TabsContent>
       </Tabs>
-    </>
+    </BlurPage>
   );
 };
 
