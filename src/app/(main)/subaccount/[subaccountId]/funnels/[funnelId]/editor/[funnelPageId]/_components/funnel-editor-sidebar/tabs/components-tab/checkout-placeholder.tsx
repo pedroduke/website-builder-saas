@@ -1,9 +1,7 @@
 import { EditorBtns } from '@/lib/constants';
 import Image from 'next/image';
 
-type Props = {};
-
-const CheckoutPlaceholder = (props: Props) => {
+const CheckoutPlaceholder = () => {
   const handleDragStart = (e: React.DragEvent, type: EditorBtns) => {
     if (type === null) return;
     e.dataTransfer.setData('componentType', type);

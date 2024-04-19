@@ -1,4 +1,5 @@
 import { db } from '@/lib/db';
+import { getMedia } from '@/lib/queries';
 import EditorProvider from '@/providers/editor/editor-provider';
 import { redirect } from 'next/navigation';
 
@@ -21,6 +22,8 @@ const Page = async ({ params }: Props) => {
     },
   });
 
+  const mediaFiles = await getMedia(params.subaccountId);
+
   if (!funnelPageDetails) {
     return redirect(`/subaccount/${params.subaccountId}/funnels/${params.funnelId}`);
   }
@@ -40,7 +43,7 @@ const Page = async ({ params }: Props) => {
         <div className="h-full flex justify-center">
           <FunnelEditor funnelPageId={params.funnelPageId} />
         </div>
-        <FunnelEditorSidebar subaccountId={params.subaccountId} />
+        <FunnelEditorSidebar subaccountId={params.subaccountId} mediaFiles={mediaFiles} />
       </EditorProvider>
     </div>
   );

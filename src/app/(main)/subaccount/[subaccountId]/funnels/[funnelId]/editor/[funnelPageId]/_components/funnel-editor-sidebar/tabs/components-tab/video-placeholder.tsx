@@ -1,9 +1,7 @@
 import { EditorBtns } from '@/lib/constants';
 import { Video } from 'lucide-react';
 
-type Props = {};
-
-const VideoPlaceholder = (props: Props) => {
+const VideoPlaceholder = () => {
   const handleDragStart = (e: React.DragEvent, type: EditorBtns) => {
     if (type === null) return;
     e.dataTransfer.setData('componentType', type);

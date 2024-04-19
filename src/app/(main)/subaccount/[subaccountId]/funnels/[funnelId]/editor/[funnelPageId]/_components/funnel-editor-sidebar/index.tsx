@@ -1,7 +1,10 @@
 'use client';
 
+import { getMedia } from '@/lib/queries';
+import { GetMediaFiles } from '@/lib/types';
 import { useEditor } from '@/providers/editor/editor-provider';
 import clsx from 'clsx';
+import { useEffect, useState } from 'react';
 
 import {
   Sheet,
@@ -20,10 +23,24 @@ import SettingsTab from './tabs/settings-tab';
 
 type Props = {
   subaccountId: string;
+  mediaFiles: GetMediaFiles;
 };
 
-const FunnelEditorSidebar = ({ subaccountId }: Props) => {
+const FunnelEditorSidebar = ({ subaccountId, mediaFiles }: Props) => {
   const { state, dispatch } = useEditor();
+  const [data, setData] = useState(mediaFiles);
+
+  if (data?.Media.length !== mediaFiles?.Media.length) {
+    setData(mediaFiles);
+  }
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await getMedia(subaccountId);
+      setData(response);
+    };
+    fetchData();
+  }, [subaccountId]);
 
   return (
     <Sheet open={true} modal={false}>
@@ -32,7 +49,7 @@ const FunnelEditorSidebar = ({ subaccountId }: Props) => {
           showX={false}
           side="right"
           className={clsx(
-            'mt-[97px] w-16 z-[80] shadow-none p-0 focus:border-none transition-all overflow-hidden',
+            'mt-[97px] w-16 z-[50] shadow-none p-0 focus:border-none transition-all overflow-hidden',
             { hidden: state.editor.previewMode },
           )}
         >
@@ -57,7 +74,7 @@ const FunnelEditorSidebar = ({ subaccountId }: Props) => {
               <SettingsTab />
             </TabsContent>
             <TabsContent value="Media">
-              <MediaBucketTab subaccountId={subaccountId} />
+              <MediaBucketTab subaccountId={subaccountId} data={data} />
             </TabsContent>
             <TabsContent value="Layers">
               <LayersTab />

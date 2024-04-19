@@ -20,18 +20,23 @@ type Props = {
 const Checkout = (props: Props) => {
   const { dispatch, state, subaccountId, funnelId, pageDetails } = useEditor();
   const router = useRouter();
+
   const [clientSecret, setClientSecret] = useState('');
   const [livePrices, setLivePrices] = useState([]);
   const [subAccountConnectAccId, setSubAccountConnectAccId] = useState('');
+
   const options = useMemo(() => ({ clientSecret }), [clientSecret]);
   const styles = props.element.styles;
 
   useEffect(() => {
     if (!subaccountId) return;
+
     const fetchData = async () => {
       const subaccountDetails = await getSubAccountDetails(subaccountId);
+
       if (subaccountDetails) {
         if (!subaccountDetails.connectAccountId) return;
+
         setSubAccountConnectAccId(subaccountDetails.connectAccountId);
       }
     };
@@ -42,6 +47,7 @@ const Checkout = (props: Props) => {
     if (funnelId) {
       const fetchData = async () => {
         const funnelData = await getFunnel(funnelId);
+
         setLivePrices(JSON.parse(funnelData?.liveProducts || '[]'));
       };
       fetchData();
@@ -57,6 +63,7 @@ const Checkout = (props: Props) => {
             prices: livePrices,
             subaccountId,
           });
+
           const response = await fetch(
             `${process.env.NEXT_PUBLIC_URL}api/stripe/create-checkout-session`,
             {
@@ -65,12 +72,15 @@ const Checkout = (props: Props) => {
               body,
             },
           );
+
           const responseJson = await response.json();
-          console.log(responseJson);
-          if (!responseJson) throw new Error('somethign went wrong');
+
+          if (!responseJson) throw new Error('Something went wrong');
+
           if (responseJson.error) {
             throw new Error(responseJson.error);
           }
+
           if (responseJson.clientSecret) {
             setClientSecret(responseJson.clientSecret);
           }
@@ -104,6 +114,7 @@ const Checkout = (props: Props) => {
     });
   };
 
+  // TODO: Wire up goToNextPage
   const goToNextPage = async () => {
     if (!state.editor.liveMode) return;
     const funnelPages = await getFunnel(funnelId);
@@ -132,7 +143,7 @@ const Checkout = (props: Props) => {
       onDragStart={(e) => handleDragStart(e, 'contactForm')}
       onClick={handleOnClickBody}
       className={clsx(
-        'p-[2px] w-full m-[5px] relative text-[16px] transition-all flex items-center justify-center',
+        'p-[2px] w-full relative text-[16px] transition-all flex items-center justify-center',
         {
           '!border-primary': state.editor.selectedElement.id === props.element.id,
 
@@ -148,7 +159,7 @@ const Checkout = (props: Props) => {
       )}
 
       <div className="border-none transition-all w-full">
-        <div className="flex flex-col gap-4 w-full">
+        <div className="flex flex-col gap-4">
           {options.clientSecret && subAccountConnectAccId && (
             <div className="text-white">
               <EmbeddedCheckoutProvider

@@ -23,6 +23,7 @@ const ContactFormComponent = (props: Props) => {
 
   const handleDragStart = (e: React.DragEvent, type: EditorBtns) => {
     if (type === null) return;
+
     e.dataTransfer.setData('componentType', type);
   };
 
@@ -40,11 +41,16 @@ const ContactFormComponent = (props: Props) => {
 
   const goToNextPage = async () => {
     if (!state.editor.liveMode) return;
+
     const funnelPages = await getFunnel(funnelId);
+
     if (!funnelPages || !pageDetails) return;
+
     if (funnelPages.FunnelPages.length > pageDetails.order + 1) {
       const nextPage = funnelPages.FunnelPages.find((page) => page.order === pageDetails.order + 1);
+
       if (!nextPage) return;
+
       router.replace(
         `${process.env.NEXT_PUBLIC_SCHEME}${funnelPages.subDomainName}.${process.env.NEXT_PUBLIC_DOMAIN}/${nextPage.pathName}`,
       );
@@ -59,23 +65,26 @@ const ContactFormComponent = (props: Props) => {
   };
 
   const onFormSubmit = async (values: z.infer<typeof ContactUserFormSchema>) => {
-    if (!state.editor.liveMode) return;
+    if (!state.editor.liveMode || state.editor.previewMode) return;
 
     try {
       const response = await upsertContact({
         ...values,
         subAccountId: subaccountId,
       });
+
       //WIP Call trigger endpoint
       await saveActivityLogsNotification({
         agencyId: undefined,
         description: `A New contact signed up | ${response?.name}`,
         subaccountId: subaccountId,
       });
+
       toast({
         title: 'Success',
         description: 'Successfully Saved your info',
       });
+
       await goToNextPage();
     } catch (error) {
       toast({

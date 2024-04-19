@@ -72,7 +72,7 @@ const ComponentsTab = (props: Props) => {
     <Accordion type="multiple" className="w-full" defaultValue={['Layout', 'Elements']}>
       <AccordionItem value="Layout" className="px-6 py-0 border-y-[1px]">
         <AccordionTrigger className="!no-underline">Layout</AccordionTrigger>
-        <AccordionContent className="flex flex-wrap gap-2 ">
+        <AccordionContent className="flex flex-wrap gap-2">
           {elements
             .filter((element) => element.group === 'layout')
             .map((element) => (
