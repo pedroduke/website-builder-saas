@@ -7,7 +7,7 @@ import { useModal } from '@/providers/modal-provider';
 import { Draggable, Droppable } from '@hello-pangea/dnd';
 import { Edit, MoreVertical, PlusCircleIcon, Trash } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import React, { Dispatch, SetStateAction, useMemo } from 'react';
+import { Dispatch, SetStateAction, useMemo } from 'react';
 
 import CreateLaneForm from '@/components/forms/lane-form';
 import TicketForm from '@/components/forms/ticket-form';

@@ -13,7 +13,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Funnel, Lane, Pipeline } from '@prisma/client';
 import { Loader2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { v4 } from 'uuid';
 import { z } from 'zod';

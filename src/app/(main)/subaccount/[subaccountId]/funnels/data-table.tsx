@@ -9,7 +9,6 @@ import {
   useReactTable,
 } from '@tanstack/react-table';
 import { Plus, Search } from 'lucide-react';
-import React from 'react';
 
 import CustomModal from '@/components/global/custom-modal';
 import { Button } from '@/components/ui/button';

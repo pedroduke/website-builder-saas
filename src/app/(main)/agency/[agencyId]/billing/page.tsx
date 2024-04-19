@@ -2,7 +2,6 @@ import { addOnProducts, pricingCards } from '@/lib/constants';
 import { db } from '@/lib/db';
 import { checkAddOn, checkSubscription, stripe } from '@/lib/stripe';
 import clsx from 'clsx';
-import React from 'react';
 
 import { Separator } from '@/components/ui/separator';
 import {

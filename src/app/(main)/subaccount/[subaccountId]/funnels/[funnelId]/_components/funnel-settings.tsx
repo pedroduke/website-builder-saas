@@ -1,7 +1,6 @@
 import { db } from '@/lib/db';
 import { getConnectAccountProducts } from '@/lib/stripe/stripe-actions';
 import { Funnel, SubAccount } from '@prisma/client';
-import React from 'react';
 
 import FunnelForm from '@/components/forms/funnel-form';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -14,7 +13,7 @@ interface FunnelSettingsProps {
 }
 
 const FunnelSettings: React.FC<FunnelSettingsProps> = async ({ subaccountId, defaultData }) => {
-  //CHALLENGE: go connect your stripe to sell products
+  // CHALLENGE: go connect your stripe to sell products
 
   const subaccountDetails = await db.subAccount.findUnique({
     where: {

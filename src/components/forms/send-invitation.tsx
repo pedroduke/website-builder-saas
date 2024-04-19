@@ -4,7 +4,6 @@ import { saveActivityLogsNotification, sendInvitation } from '@/lib/queries';
 import { useModal } from '@/providers/modal-provider';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Loader2 } from 'lucide-react';
-import React from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 

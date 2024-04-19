@@ -12,7 +12,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { FunnelPage } from '@prisma/client';
 import { CopyPlusIcon, Loader2, Trash } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { v4 } from 'uuid';
 import { z } from 'zod';
@@ -84,7 +84,7 @@ const CreateFunnelPage: React.FC<CreateFunnelPageProps> = ({
 
       toast({
         title: 'Success',
-        description: 'Saves Funnel Page Details',
+        description: 'Saved Funnel Page Details',
       });
 
       setClose();

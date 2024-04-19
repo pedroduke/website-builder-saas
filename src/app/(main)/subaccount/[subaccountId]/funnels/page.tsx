@@ -1,6 +1,5 @@
 import { getFunnels } from '@/lib/queries';
 import { Plus } from 'lucide-react';
-import React from 'react';
 
 import FunnelForm from '@/components/forms/funnel-form';
 import BlurPage from '@/components/global/blur-page';

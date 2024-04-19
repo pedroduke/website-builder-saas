@@ -5,7 +5,6 @@ import { useModal } from '@/providers/modal-provider';
 import clsx from 'clsx';
 import { format } from 'date-fns';
 import { useSearchParams } from 'next/navigation';
-import React from 'react';
 
 import CancelAddOnForm from '@/components/forms/subscription-form/cancel-addon-form';
 import CancelSubscriptionForm from '@/components/forms/subscription-form/cancel-subscription-form';

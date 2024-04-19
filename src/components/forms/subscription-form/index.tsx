@@ -3,7 +3,7 @@
 import { Plan } from '@prisma/client';
 import { PaymentElement, useElements, useStripe } from '@stripe/react-stripe-js';
 import { Loader2 } from 'lucide-react';
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/components/ui/use-toast';

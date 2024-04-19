@@ -1,14 +1,6 @@
-import React from 'react';
-
 const Database = () => {
   return (
-    <svg
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path
         d="M12 16C17.0495 16 21 14.2723 21 12V7H3V12C3 14.2723 6.95053 16 12 16Z"
         className={`  fill-[#70799A] text-xl transition-all`}

@@ -5,7 +5,7 @@ import { Media } from '@prisma/client';
 import { Copy, MoreHorizontal, Trash } from 'lucide-react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 import {
   AlertDialog,

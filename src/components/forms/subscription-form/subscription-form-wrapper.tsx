@@ -9,7 +9,7 @@ import { StripeElementsOptions } from '@stripe/stripe-js';
 import clsx from 'clsx';
 import { Loader2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import React, { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import { Card, CardHeader, CardTitle } from '@/components/ui/card';
 import { toast } from '@/components/ui/use-toast';

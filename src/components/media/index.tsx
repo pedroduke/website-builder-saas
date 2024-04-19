@@ -19,7 +19,7 @@ type MediaComponentProps = {
 
 const MediaComponent = ({ data, subaccountId }: MediaComponentProps) => {
   return (
-    <div className="flex flex-col gap-4 h-full w-full">
+    <div className="flex flex-col gap-4 w-full">
       <div className="flex justify-between items-center">
         <h1 className="text-4xl">Media Bucket</h1>
         <MediaUploadButton subaccountId={subaccountId} />
@@ -43,11 +43,11 @@ const MediaComponent = ({ data, subaccountId }: MediaComponentProps) => {
             )}
           </CommandEmpty>
           <CommandGroup>
-            <div className="flex flex-wrap flex-col md:flex-row gap-4 pt-4">
+            <div className="flex flex-wrap gap-4 pt-4 justify-evenly">
               {data?.Media.map((file) => (
                 <CommandItem
                   key={file.id}
-                  className="p-0 max-w-[100%] md:max-w-[32%] w-full rounded-lg !bg-transparent !font-medium"
+                  className="p-0 max-w-full md:max-w-xs w-full rounded-lg !bg-transparent !font-medium"
                 >
                   <MediaCard file={file} />
                 </CommandItem>

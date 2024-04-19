@@ -6,7 +6,7 @@ import { useModal } from '@/providers/modal-provider';
 import { FunnelPage } from '@prisma/client';
 import { Check, ExternalLink, LucideEdit } from 'lucide-react';
 import Link from 'next/link';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { DragDropContext, DragStart, DropResult, Droppable } from 'react-beautiful-dnd';
 
 import CreateFunnelPage from '@/components/forms/funnel-page';

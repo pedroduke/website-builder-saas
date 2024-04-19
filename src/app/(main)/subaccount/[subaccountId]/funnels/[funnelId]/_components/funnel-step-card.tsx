@@ -1,6 +1,5 @@
 import { FunnelPage } from '@prisma/client';
 import { ArrowDown, Mail } from 'lucide-react';
-import React from 'react';
 import { Draggable } from 'react-beautiful-dnd';
 import { createPortal } from 'react-dom';
 
