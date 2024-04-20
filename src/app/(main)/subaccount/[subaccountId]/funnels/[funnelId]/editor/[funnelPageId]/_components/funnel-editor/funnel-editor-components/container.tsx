@@ -204,6 +204,7 @@ const Container = ({ element }: Props) => {
           state.editor.selectedElement.type === '__body',
         '!border-solid': state.editor.selectedElement.id === id && !state.editor.liveMode,
         'border-dashed border-[1px] border-slate-300': !state.editor.liveMode,
+        'pb-[120px]': type === '__body' && !state.editor.liveMode,
       })}
       onDrop={(e) => handleOnDrop(e, id)}
       onDragOver={handleDragOver}

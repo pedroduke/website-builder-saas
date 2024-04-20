@@ -4,7 +4,6 @@ import { clerkClient, currentUser } from '@clerk/nextjs';
 import { Agency, Lane, Plan, Prisma, Role, SubAccount, Tag, Ticket, User } from '@prisma/client';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
-import { pipeline } from 'stream';
 import { v4 } from 'uuid';
 import { z } from 'zod';
 
@@ -976,5 +975,33 @@ export const getFunnelPageDetails = async (funnelPageId: string) => {
     },
   });
 
+  return response;
+};
+
+export const getDomainContent = async (subDomainName: string) => {
+  const response = await db.funnel.findUnique({
+    where: {
+      subDomainName,
+    },
+    include: {
+      FunnelPages: true,
+    },
+  });
+  return response;
+};
+
+export const getPipelines = async (subaccountId: string) => {
+  const response = await db.pipeline.findMany({
+    where: {
+      subAccountId: subaccountId,
+    },
+    include: {
+      Lane: {
+        include: {
+          Tickets: true,
+        },
+      },
+    },
+  });
   return response;
 };

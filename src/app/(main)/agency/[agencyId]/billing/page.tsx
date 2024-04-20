@@ -14,6 +14,7 @@ import {
 } from '@/components/ui/table';
 
 import PricingCard from './_components/pricing-card';
+import SubscriptionHelper from './_components/subscription-helper';
 
 type Props = {
   params: { agencyId: string };
@@ -90,6 +91,11 @@ const page = async ({ params }: Props) => {
 
   return (
     <>
+      <SubscriptionHelper
+        prices={prices.data}
+        customerId={agencySubscription?.customerId || ''}
+        planExists={agencySubscription?.Subscription?.active === true}
+      />
       <h1 className="text-4xl p-4">Billing</h1>
       <Separator className=" mb-6" />
       <div className="flex flex-col lg:!flex-row justify-between gap-8">

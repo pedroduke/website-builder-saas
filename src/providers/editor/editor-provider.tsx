@@ -148,7 +148,6 @@ const editorReducer = (state: EditorState = initialState, action: EditorAction):
         },
       };
 
-      // WIP: Local Storage
       return newEditorState;
 
     case 'UPDATE_ELEMENT':
@@ -180,7 +179,6 @@ const editorReducer = (state: EditorState = initialState, action: EditorAction):
         },
       };
 
-      // WIP: Local Storage
       return updatedEditor;
 
     case 'DELETE_ELEMENT':
@@ -207,7 +205,6 @@ const editorReducer = (state: EditorState = initialState, action: EditorAction):
         },
       };
 
-      // WIP: Local Storage
       return deletedState;
 
     case 'CHANGE_CLICKED_ELEMENT':
@@ -293,7 +290,7 @@ const editorReducer = (state: EditorState = initialState, action: EditorAction):
       return state;
 
     // case 'LOAD_LOCALSTORAGE':
-    // TODO: Finish localStorage integration
+    // WIP: Finish localStorage integration
     // const dataFromStorage = localStorage.getItem(action.payload.funnelPageId);
 
     // if (dataFromStorage) {

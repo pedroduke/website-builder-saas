@@ -102,7 +102,7 @@ const ContactFormComponent = (props: Props) => {
       onDragStart={(e) => handleDragStart(e, 'contactForm')}
       onClick={handleOnClickBody}
       className={clsx(
-        'p-[2px] w-full m-[5px] relative text-[16px] transition-all flex items-center justify-center',
+        'p-[2px] w-full relative text-[16px] transition-all flex items-center justify-center',
         {
           '!border-primary': state.editor.selectedElement.id === props.element.id,
 

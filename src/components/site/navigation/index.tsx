@@ -1,14 +1,24 @@
-import { ModeToggle } from '@/components/global/mode-toggle';
-import { UserButton } from '@clerk/nextjs';
+'use client';
+
+import { UserButton, useAuth } from '@clerk/nextjs';
 import { User } from '@clerk/nextjs/server';
 import Image from 'next/image';
 import Link from 'next/link';
+import { redirect } from 'next/navigation';
+
+import { ModeToggle } from '@/components/global/mode-toggle';
 
 type NavigationProps = {
   user?: null | User;
 };
 
 const Navigation = ({ user }: NavigationProps) => {
+  const { isSignedIn } = useAuth();
+
+  if (isSignedIn) {
+    redirect('/agency');
+  }
+
   return (
     <div className="fixed top-0 right-0 left-0 p-4 flex items-center justify-between z-30 bg-background/80 backdrop-blur-md">
       <aside className="flex items-center gap-2">
@@ -38,7 +48,7 @@ const Navigation = ({ user }: NavigationProps) => {
         >
           Login
         </Link>
-        <UserButton />
+        <UserButton afterSignOutUrl="/" />
         <ModeToggle />
       </aside>
     </div>

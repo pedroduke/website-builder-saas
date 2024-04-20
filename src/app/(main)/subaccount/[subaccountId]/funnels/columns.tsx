@@ -2,10 +2,12 @@
 
 import { FunnelsForSubAccount } from '@/lib/types';
 import { ColumnDef } from '@tanstack/react-table';
-import { ExternalLink } from 'lucide-react';
+import { ExternalLink, Trash } from 'lucide-react';
 import Link from 'next/link';
 
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { toast } from '@/components/ui/use-toast';
 
 export const columns: ColumnDef<FunnelsForSubAccount>[] = [
   {

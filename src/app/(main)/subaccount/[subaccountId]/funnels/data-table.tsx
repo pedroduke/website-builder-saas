@@ -8,7 +8,7 @@ import {
   getFilteredRowModel,
   useReactTable,
 } from '@tanstack/react-table';
-import { Plus, Search } from 'lucide-react';
+import { Search } from 'lucide-react';
 
 import CustomModal from '@/components/global/custom-modal';
 import { Button } from '@/components/ui/button';

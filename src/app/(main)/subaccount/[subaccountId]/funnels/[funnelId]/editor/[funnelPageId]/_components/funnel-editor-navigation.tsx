@@ -4,11 +4,21 @@ import { saveActivityLogsNotification, upsertFunnelPage } from '@/lib/queries';
 import { DeviceTypes, useEditor } from '@/providers/editor/editor-provider';
 import { FunnelPage } from '@prisma/client';
 import clsx from 'clsx';
-import { ArrowLeftCircle, EyeIcon, Laptop, Redo2, Smartphone, Tablet, Undo2 } from 'lucide-react';
+import {
+  ArrowLeftCircle,
+  EyeIcon,
+  Laptop,
+  Loader2,
+  Redo2,
+  Smartphone,
+  Tablet,
+  Undo2,
+} from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { FocusEventHandler, useEffect } from 'react';
+import { FocusEventHandler, useEffect, useState } from 'react';
 
+import { ModeToggle } from '@/components/global/mode-toggle';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Switch } from '@/components/ui/switch';
@@ -25,6 +35,8 @@ type Props = {
 const FunnelEditorNavigation = ({ funnelId, funnelPageDetails, subaccountId }: Props) => {
   const router = useRouter();
   const { state, dispatch } = useEditor();
+
+  const [isLoadingSave, setIsLoadingSave] = useState(false);
 
   useEffect(() => {
     dispatch({
@@ -77,6 +89,7 @@ const FunnelEditorNavigation = ({ funnelId, funnelPageDetails, subaccountId }: P
   const handleOnSave = async () => {
     const content = JSON.stringify(state.editor.elements);
     try {
+      setIsLoadingSave(true);
       const response = await upsertFunnelPage(
         subaccountId,
         {
@@ -96,11 +109,14 @@ const FunnelEditorNavigation = ({ funnelId, funnelPageDetails, subaccountId }: P
         title: 'Success',
         description: 'Saved Editor',
       });
+      setIsLoadingSave(false);
     } catch (error) {
       toast({
+        variant: 'destructive',
         title: 'Oopps!',
         description: 'Could not save editor',
       });
+      setIsLoadingSave(false);
     }
   };
 
@@ -220,8 +236,15 @@ const FunnelEditorNavigation = ({ funnelId, funnelPageDetails, subaccountId }: P
             </span>
           </div>
           <Button className="text-white" onClick={handleOnSave}>
-            Save
+            {isLoadingSave ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Saving...
+              </>
+            ) : (
+              'Save'
+            )}
           </Button>
+          <ModeToggle />
         </aside>
       </nav>
     </TooltipProvider>
