@@ -5,7 +5,6 @@ import { User } from '@clerk/nextjs/server';
 import clsx from 'clsx';
 import Image from 'next/image';
 import Link from 'next/link';
-import { redirect } from 'next/navigation';
 
 import { ModeToggle } from '@/components/global/mode-toggle';
 
