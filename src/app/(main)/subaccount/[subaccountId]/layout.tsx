@@ -3,6 +3,7 @@ import {
   getNotificationAndUser,
   verifyAndAcceptInvitation,
 } from '@/lib/queries';
+import { checkAddOn } from '@/lib/stripe';
 import { currentUser } from '@clerk/nextjs';
 import { Role } from '@prisma/client';
 import { redirect } from 'next/navigation';
@@ -30,6 +31,8 @@ const SubAccountLayout = async ({ children, params }: SubAccountLayoutProps) => 
   }
 
   let notifications: any = [];
+
+  const { addOnIsSubscribed } = await checkAddOn();
 
   if (!user.privateMetadata.role) {
     return <Unauthorized />;
@@ -68,6 +71,7 @@ const SubAccountLayout = async ({ children, params }: SubAccountLayoutProps) => 
           notifications={notifications}
           role={user.privateMetadata.role as Role}
           subaccountId={params.subaccountId as string}
+          addOnIsSubscribed={addOnIsSubscribed}
         />
         <div className="relative">{children}</div>
       </div>

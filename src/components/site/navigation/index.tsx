@@ -2,6 +2,7 @@
 
 import { UserButton, useAuth } from '@clerk/nextjs';
 import { User } from '@clerk/nextjs/server';
+import clsx from 'clsx';
 import Image from 'next/image';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
@@ -15,12 +16,8 @@ type NavigationProps = {
 const Navigation = ({ user }: NavigationProps) => {
   const { isSignedIn } = useAuth();
 
-  if (isSignedIn) {
-    redirect('/agency');
-  }
-
   return (
-    <div className="fixed top-0 right-0 left-0 p-4 flex items-center justify-between z-30 bg-background/80 backdrop-blur-md">
+    <div className="sticky inset-x-0 top-0 right-0 left-0 p-4 flex items-center justify-between z-30 bg-background/80 backdrop-blur-md">
       <aside className="flex items-center gap-2">
         <Image src={'/assets/aura-logo.png'} width={40} height={40} alt="aura logo" />
         <span className="text-xl font-bold">Aura.</span>
@@ -43,10 +40,12 @@ const Navigation = ({ user }: NavigationProps) => {
       </nav>
       <aside className="flex gap-2 items-center">
         <Link
-          href={'/agency'}
-          className="bg-primary text-white p-2 px-4 rounded-md hover:bg-primary/80"
+          href={isSignedIn ? '/agency' : '/agency/sign-in'}
+          className={clsx('bg-primary text-white p-2 px-4 rounded-md hover:bg-primary/80', {
+            'bg-transparent hover:bg-transparent/10 !text-black dark:!text-white': isSignedIn,
+          })}
         >
-          Login
+          {isSignedIn ? 'Dashboard' : 'Login'}
         </Link>
         <UserButton afterSignOutUrl="/" />
         <ModeToggle />

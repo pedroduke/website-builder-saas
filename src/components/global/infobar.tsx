@@ -3,6 +3,7 @@
 import { NotificationWithUser } from '@/lib/types';
 import { UserButton } from '@clerk/nextjs';
 import { Role } from '@prisma/client';
+import { Crisp } from 'crisp-sdk-web';
 import { Bell } from 'lucide-react';
 import { useState } from 'react';
 import { twMerge } from 'tailwind-merge';
@@ -27,11 +28,24 @@ type InfoBarProps = {
   role?: Role;
   className?: string;
   subaccountId?: string;
+  addOnIsSubscribed?: boolean;
 };
 
-const InfoBar = ({ notifications, role, className, subaccountId }: InfoBarProps) => {
+const InfoBar = ({
+  notifications,
+  role,
+  className,
+  subaccountId,
+  addOnIsSubscribed,
+}: InfoBarProps) => {
   const [allNotifications, setAllNotifications] = useState(notifications);
   const [showAll, setShowAll] = useState(true);
+
+  if (addOnIsSubscribed) {
+    Crisp.chat.show();
+  } else {
+    Crisp.chat.hide();
+  }
 
   const handleClick = () => {
     if (!showAll) {

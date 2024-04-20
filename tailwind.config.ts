@@ -23,7 +23,7 @@ module.exports = withUt({
         tremor: {
           brand: {
             faint: colors.blue[50],
-            muted: '#b4c2d4',
+            muted: 'hsl(var(--secondary))',
             subtle: colors.blue[400],
             DEFAULT: 'hsl(var(--primary))',
             emphasis: colors.blue[700],
