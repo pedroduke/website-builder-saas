@@ -1,7 +1,8 @@
-import { Button } from '@/components/ui/button';
 import { UploadDropzone } from '@uploadthing/react';
 import { FileIcon, X } from 'lucide-react';
 import Image from 'next/image';
+
+import { Button } from '@/components/ui/button';
 
 type FileUploadProps = {
   apiEndpoint: 'agencyLogo' | 'avatar' | 'subaccountLogo';
@@ -42,9 +43,11 @@ const FileUpload = ({ apiEndpoint, onChange, value }: FileUploadProps) => {
 
   return (
     <div className="w-full bg-muted/30 rounded-md">
+      {/* @ts-ignore */}
       <UploadDropzone
         className="ut-label:text-primary ut-button:bg-primary"
         endpoint={apiEndpoint}
+        // @ts-ignore
         onClientUploadComplete={(res) => {
           onChange(res?.[0].url);
         }}
