@@ -41,6 +41,8 @@ const InfoBar = ({
   const [allNotifications, setAllNotifications] = useState(notifications);
   const [showAll, setShowAll] = useState(true);
 
+  Crisp.chat.hide();
+
   if (addOnIsSubscribed) {
     Crisp.chat.show();
   } else {
