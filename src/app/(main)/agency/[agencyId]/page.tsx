@@ -28,7 +28,7 @@ const Page = async ({
   let totalClosedSessions;
   let totalPendingSessions;
   let net = 0;
-  let potnetialIncome = 0;
+  let potentialIncome = 0;
   let closingRate = 0;
   const currentYear = new Date().getFullYear();
   const startDate = new Date(`${currentYear}-01-01T00:00:00Z`).getTime() / 1000;
@@ -61,7 +61,6 @@ const Page = async ({
       },
       { stripeAccount: agencyDetails.connectAccountId },
     );
-
     sessions = checkoutSessions.data;
     totalClosedSessions = checkoutSessions.data
       .filter((session) => session.status === 'complete')
@@ -78,12 +77,11 @@ const Page = async ({
         created: new Date(session.created).toLocaleDateString(),
         amount_total: session.amount_total ? session.amount_total / 100 : 0,
       }));
-
     net = +totalClosedSessions
       .reduce((total, session) => total + (session.amount_total || 0), 0)
       .toFixed(2);
 
-    potnetialIncome = +totalPendingSessions
+    potentialIncome = +totalPendingSessions
       .reduce((total, session) => total + (session.amount_total || 0), 0)
       .toFixed(2);
 
@@ -136,7 +134,7 @@ const Page = async ({
             <CardHeader>
               <CardDescription>Potential Income</CardDescription>
               <CardTitle className="text-4xl">
-                {potnetialIncome ? `${potnetialIncome.toFixed(2)}` : '$0.00'}
+                {potentialIncome ? `${potentialIncome.toFixed(2)}` : '$0.00'}
               </CardTitle>
               <small className="text-xs text-muted-foreground">For the year {currentYear}</small>
             </CardHeader>
