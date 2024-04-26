@@ -43,7 +43,7 @@ const MediaComponent = ({ data, subaccountId }: MediaComponentProps) => {
             )}
           </CommandEmpty>
           <CommandGroup>
-            <div className="flex flex-wrap gap-4 pt-4 justify-evenly">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 pt-2">
               {data?.Media.map((file) => (
                 <CommandItem
                   key={file.id}
