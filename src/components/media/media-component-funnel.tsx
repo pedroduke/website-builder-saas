@@ -17,7 +17,7 @@ type MediaComponentProps = {
   subaccountId: string;
 };
 
-const MediaComponent = ({ data, subaccountId }: MediaComponentProps) => {
+const MediaComponentFunnel = ({ data, subaccountId }: MediaComponentProps) => {
   return (
     <div className="flex flex-col gap-4 w-full">
       <div className="flex justify-between items-center">
@@ -43,7 +43,7 @@ const MediaComponent = ({ data, subaccountId }: MediaComponentProps) => {
             )}
           </CommandEmpty>
           <CommandGroup>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5  gap-4 pt-2">
+            <div className="grid grid-cols-1 gap-4 pt-2">
               {data?.Media.map((file) => (
                 <CommandItem key={file.id} className="p-0 rounded-lg !bg-transparent !font-medium">
                   <MediaCard file={file} />
@@ -57,4 +57,4 @@ const MediaComponent = ({ data, subaccountId }: MediaComponentProps) => {
   );
 };
 
-export default MediaComponent;
+export default MediaComponentFunnel;

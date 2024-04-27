@@ -41,7 +41,7 @@ const MediaCard = ({ file }: MediaCardProps) => {
     <AlertDialog>
       <DropdownMenu>
         <article className="border w-full rounded-lg bg-muted">
-          <div className="relative w-full h-40">
+          <div className="relative aspect-square">
             <Image src={file.link} alt="preview image" fill className="object-cover rounded-lg" />
           </div>
           <p className="opacity-0 h-0 w-0">{file.name}</p>

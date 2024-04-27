@@ -2,7 +2,7 @@
 
 import { GetMediaFiles } from '@/lib/types';
 
-import MediaComponent from '@/components/media';
+import MediaComponentFunnel from '@/components/media/media-component-funnel';
 
 type Props = {
   subaccountId: string;
@@ -12,7 +12,7 @@ type Props = {
 const MediaBucketTab = (props: Props) => {
   return (
     <div className="h-full overflow-hidden p-4">
-      <MediaComponent data={props.data} subaccountId={props.subaccountId} />
+      <MediaComponentFunnel data={props.data} subaccountId={props.subaccountId} />
     </div>
   );
 };
